@@ -1,6 +1,8 @@
 import { motion } from 'motion/react';
 import { Check } from 'lucide-react';
 import { Link } from 'react-router';
+import { useState } from 'react';
+import { CoverageCheckModal } from '../CoverageCheckModal';
 
 interface Package {
   speed: string;
@@ -23,6 +25,9 @@ interface VPSPackage {
 }
 
 export function Packages() {
+  const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const tiyeniPackages: Package[] = [
     {
       speed: '10',
@@ -190,8 +195,11 @@ export function Packages() {
                 </ul>
 
                 {/* CTA Button */}
-                <Link
-                  to="/contact"
+                <button
+                  onClick={() => {
+                    setSelectedPackage(pkg.name);
+                    setIsModalOpen(true);
+                  }}
                   className={`block w-full text-center py-3 rounded-xl font-semibold transition-transform hover:scale-105 ${
                     pkg.popular
                       ? 'bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] text-white'
@@ -199,7 +207,7 @@ export function Packages() {
                   }`}
                 >
                   Select
-                </Link>
+                </button>
               </div>
             </motion.div>
           ))}
@@ -351,6 +359,22 @@ export function Packages() {
           </div>
         </motion.div>
       </div>
+
+      {/* Coverage Check Modal */}
+      {selectedPackage && (
+        <CoverageCheckModal
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedPackage(null);
+          }}
+          onConfirm={() => {
+            setIsModalOpen(false);
+            window.location.href = `/contact?package=${encodeURIComponent(selectedPackage || '')}`;
+          }}
+          packageName={selectedPackage}
+        />
+      )}
     </div>
   );
 }

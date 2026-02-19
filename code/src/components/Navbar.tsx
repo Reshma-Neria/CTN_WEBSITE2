@@ -16,7 +16,6 @@ export function Navbar({ onSearchClick }: NavbarProps) {
     { path: '/about', label: 'About' },
     { path: '/packages', label: 'Packages' },
     { path: '/business', label: 'Business' },
-    { path: '/coverage', label: 'Coverage' },
     { path: '/partners', label: 'Partners' },
     { path: '/contact', label: 'Contact' },
   ];

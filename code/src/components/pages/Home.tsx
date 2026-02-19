@@ -298,30 +298,6 @@ export function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] rounded-3xl p-12 text-center"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Sign Up Now!
-            </h2>
-            <p className="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto leading-relaxed">
-              Choose your speed, enjoy unlimited data, and experience the difference with CTN.
-            </p>
-            <Link
-              to="/packages"
-              className="inline-flex items-center space-x-2 bg-[#1e3a5f] text-white px-8 py-4 rounded-xl font-semibold hover:scale-105 transition-transform"
-            >
-              <span>Explore Packages</span>
-              <ArrowRight className="w-5 h-5 text-white" />
-            </Link>
-          </motion.div>
-        </div>
-      </section>
     </div>
   );
 }
