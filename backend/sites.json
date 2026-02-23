@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "name": "EMBASSY_AREA9",
+    "lat": -13.9804,
+    "lng": 33.7543
+  },
+  {
+    "id": 2,
+    "name": "AREA10 PTC",
+    "lat": -13.9396,
+    "lng": 33.8039
+  },
+  {
+    "id": 3,
+    "name": "AREA36",
+    "lat": -14.018,
+    "lng": 33.7857
+  },
+  {
+    "id": 4,
+    "name": "AIRWING",
+    "lat": -13.9567,
+    "lng": 33.7042
+  },
+  {
+    "id": 5,
+    "name": "AREA47SECTOR3",
+    "lat": -13.9547,
+    "lng": 33.7627
+  },
+  {
+    "id": 6,
+    "name": "KABWABWA",
+    "lat": -13.8786,
+    "lng": 33.7594
+  },
+  {
+    "id": 7,
+    "name": "CHITIPI TURNOFF",
+    "lat": -13.9938,
+    "lng": 33.6841
+  },
+  {
+    "id": 8,
+    "name": "Madzi",
+    "lat": -13.9963,
+    "lng": 33.7546
+  },
+  {
+    "id": 9,
+    "name": "Area 47",
+    "lat": -13.9578,
+    "lng": 33.7589
+  },
+  {
+    "id": 10,
+    "name": "Area 49",
+    "lat": -13.9345,
+    "lng": 33.7501
+  },
+  {
+    "id": 11,
+    "name": "Airwing",
+    "lat": -13.9565,
+    "lng": 33.7038
+  },
+  {
+    "id": 12,
+    "name": "Capital Hill",
+    "lat": -13.9458,
+    "lng": 33.7903
+  },
+  {
+    "id": 13,
+    "name": "Silos",
+    "lat": -13.8922,
+    "lng": 33.8073
+  },
+  {
+    "id": 14,
+    "name": "Civo",
+    "lat": -13.9809,
+    "lng": 33.7615
+  }
+]
