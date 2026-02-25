@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CTN Application Form</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f7f7f7;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .form-container {
+        max-width: 900px;
+        margin: auto;
+        background: #ffffff;
+        padding: 25px;
+        border: 1px solid #ccc;
+    }
+
+    .logo-container {
+        text-align: center;
+        margin: -25px -25px 20px -25px;
+        padding: 20px;
+        background: #fff;
+    }
+
+    .logo-container img {
+        max-height: 80px;
+        width: auto;
+    }
+
+    h1 {
+        background: #002147;
+        color: #fff;
+        padding: 10px;
+        font-size: 20px;
+        margin: 0 -25px 20px -25px;
+        text-align: center;
+    }
+
+    fieldset {
+        border: 1px solid #bbb;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    legend {
+        font-weight: bold;
+        padding: 0 10px;
+    }
+
+    .row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+
+    .field {
+        flex: 1;
+        min-width: 180px;
+    }
+
+    .package-row {
+        align-items: flex-start;
+    }
+
+    .package-left {
+        flex: 2;
+        min-width: 400px;
+    }
+
+    .advance-payment {
+        flex: 1;
+        min-width: 200px;
+        border: 1px solid #bbb;
+        padding: 10px;
+        font-size: 13px;
+        background: #fafafa;
+    }
+
+    .advance-payment-title {
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .advance-option {
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    label {
+        font-size: 13px;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    label.required::after {
+        content: " *";
+        color: #d32f2f;
+        font-weight: bold;
+    }
+
+    label.required::after {
+        content: " *";
+        color: #d32f2f;
+        font-weight: bold;
+    }
+
+    label.required::after {
+        content: " *";
+        color: #d32f2f;
+        font-weight: bold;
+    }
+
+    .required-field {
+        border-color: #d32f2f !important;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    select {
+        width: 100%;
+        padding: 6px;
+        border: 1px solid #aaa;
+        font-size: 13px;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 5px;
+    }
+
+    .equipment-notice {
+        margin: 8px 0 0 18px;
+        padding: 0;
+        font-size: 13px;
+    }
+
+    .equipment-notice li {
+        margin: 6px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    th, td {
+        border: 1px solid #999;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background: #eee;
+    }
+
+    .footer-note {
+        font-size: 11px;
+        margin-top: 15px;
+    }
+
+    #map {
+        border-radius: 4px;
+    }
+
+    input[readonly] {
+        background-color: #f5f5f5;
+        cursor: not-allowed;
+    }
+
+    input:invalid:not(:focus):not(:placeholder-shown),
+    select:invalid:not(:focus) {
+        border-color: #d32f2f;
+        box-shadow: 0 0 0 1px #d32f2f;
+    }
+
+    input:required:invalid,
+    select:required:invalid {
+        border-left: 3px solid #d32f2f;
+    }
+
+    .terms-section {
+        margin-top: 50px;
+        padding-top: 30px;
+        border-top: 2px solid #002147;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .terms-section h1 {
+        background: #002147;
+        color: #fff;
+        padding: 15px;
+        font-size: 24px;
+        margin: 0 -25px 25px -25px;
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .terms-section h2 {
+        color: #002147;
+        font-size: 18px;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .terms-section h3 {
+        color: #333;
+        font-size: 16px;
+        margin-top: 20px;
+        margin-bottom: 8px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .terms-section .section {
+        margin-bottom: 20px;
+    }
+
+    .terms-section .subsection {
+        margin-left: 20px;
+        margin-bottom: 15px;
+    }
+
+    .terms-section p {
+        margin: 10px 0;
+        font-size: 13px;
+        text-align: justify;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .terms-section ul {
+        margin: 10px 0;
+        padding-left: 30px;
+    }
+
+    .terms-section li {
+        margin: 8px 0;
+        font-size: 13px;
+        text-align: justify;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .logos {
+        margin-top: 25px;
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .terms-link {
+        margin: 15px 0;
+        font-size: 13px;
+    }
+
+    .terms-link a {
+        color: #002147;
+        text-decoration: underline;
+    }
+
+    .signature-section {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #bbb;
+    }
+
+    .signature-container {
+        margin-top: 10px;
+        border: 1px solid #aaa;
+        padding: 10px;
+        background: #fafafa;
+    }
+
+    #signatureCanvas {
+        border: 1px solid #ccc;
+        background: white;
+        cursor: crosshair;
+        display: block;
+        width: 100%;
+        max-width: 600px;
+        height: 150px;
+    }
+
+    .signature-controls {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-clear {
+        padding: 8px 15px;
+        background: #d32f2f;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+    .btn-clear:hover {
+        background: #b71c1c;
+    }
+
+    .signature-upload {
+        margin-top: 10px;
+    }
+
+    .signature-upload input[type="file"] {
+        margin-top: 5px;
+    }
+
+    .signature-preview {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: white;
+        display: none;
+    }
+
+    .signature-preview img {
+        max-width: 100%;
+        max-height: 150px;
+    }
+
+    .agreement-checkbox {
+        margin: 15px 0;
+        font-size: 13px;
+    }
+
+    .agreement-checkbox input[type="checkbox"] {
+        margin-right: 8px;
+    }
+
+    .submit-btn {
+        margin-top: 20px;
+        padding: 12px 30px;
+        background: #002147;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .submit-btn:hover {
+        background: #001A36;
+    }
+
+    .print-btn {
+        margin-top: 20px;
+        padding: 12px 30px;
+        background: #002147;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 10px;
+        transition: opacity 0.3s;
+    }
+
+    .print-btn:hover:not(:disabled) {
+        background: #001A36;
+    }
+
+    .print-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background: #666;
+    }
+
+    /* Print Styles */
+    @media print {
+        body {
+            background: white;
+            padding: 0;
+            margin: 0;
+        }
+
+        .form-container {
+            max-width: 100%;
+            padding: 15px;
+            border: none;
+            box-shadow: none;
+        }
+
+        .logo-container {
+            margin: 0 0 15px 0;
+            padding: 10px;
+        }
+
+        h1 {
+            margin: 0 0 15px 0;
+        }
+
+        fieldset {
+            page-break-inside: avoid;
+            margin-bottom: 15px;
+            border: 1px solid #000;
+        }
+
+        .signature-section {
+            page-break-inside: avoid;
+        }
+
+        #signatureCanvas {
+            border: 1px solid #000;
+            max-width: 100%;
+            display: block !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .signature-preview {
+            display: none !important;
+        }
+
+        .signature-preview img {
+            display: none !important;
+        }
+
+        .signature-container {
+            page-break-inside: avoid;
+        }
+
+        .btn-clear,
+        .print-btn,
+        .submit-btn,
+        .signature-controls,
+        .signature-upload,
+        .terms-link,
+        .logos,
+        #map,
+        button[onclick="getCurrentLocation()"] {
+            display: none !important;
+        }
+
+        input[readonly] {
+            background-color: white;
+            border: 1px solid #000;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select,
+        input[type="checkbox"],
+        input[type="radio"] {
+            border: 1px solid #000;
+            background: white;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        input[type="checkbox"]:checked::before {
+            content: "✓";
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <form id="applicationForm" onsubmit="handleSubmit(event)">
+    <div class="logo-container">
+        <img src="/digitalform/ctn%20logo.avif" alt="CTN Logo">
+    </div>
+    <h1>Application Form</h1>
+
+    <fieldset>
+
+        <div class="row">
+            <label class="required">Payment method:</label>
+            <div class="checkbox-group" id="paymentMethodGroup">
+                <label><input type="checkbox" name="paymentMethod" value="Cheque" class="payment-method-checkbox"> Cheque</label>
+                <label><input type="checkbox" name="paymentMethod" value="Cash" class="payment-method-checkbox"> Cash</label>
+            </div>
+            <div class="field">
+                <label class="required">Date</label>
+                <input type="date" name="applicationDate" required>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Personal Details</legend>
+
+        <div class="row">
+            <div class="field">
+                <label class="required">Title</label>
+                <input type="text" name="title" required>
+            </div>
+            <div class="field">
+                <label class="required">First name</label>
+                <input type="text" name="firstName" required>
+            </div>
+            <div class="field">
+                <label class="required">Surname</label>
+                <input type="text" name="surname" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label class="required">Identity Type</label>
+                <select name="identityType" id="identityType" required onchange="handleIdentityTypeChange()">
+                    <option value="">-- Select Identity Type --</option>
+                    <option value="idNumber">ID Number</option>
+                    <option value="passportNumber">Passport Number</option>
+                    <option value="driversLicence">Driver's Licence Number</option>
+                </select>
+            </div>
+            <div class="field" id="identityNumberField" style="display: none;">
+                <label id="identityNumberLabel" class="required">Identity Number</label>
+                <input type="text" name="identityNumber" id="identityNumber">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label class="required">Contact number</label>
+                <input type="text" name="contactNumber" required>
+            </div>
+            <div class="field">
+                <label class="required">Email address</label>
+                <input type="email" name="emailAddress" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field" style="flex: 1 1 100%;">
+                <label class="required">Physical Address</label>
+                <input type="text" name="physicalAddress" style="width: 100%;" required>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Location Pin & Coordinates <span style="color: #d32f2f;">*</span></legend>
+        <p style="font-size: 12px; color: #666; margin-bottom: 10px;">Click on the map to drop a pin at your location. The coordinates will be automatically captured.</p>
+        
+        <div id="map" style="height: 250px; width: 100%; border: 1px solid #aaa; margin-bottom: 15px;"></div>
+        
+        <div class="row">
+            <div class="field">
+                <label class="required">Latitude</label>
+                <input type="text" name="latitude" id="latitude" readonly required>
+            </div>
+            <div class="field">
+                <label class="required">Longitude</label>
+                <input type="text" name="longitude" id="longitude" readonly required>
+            </div>
+        </div>
+        
+        <button type="button" onclick="getCurrentLocation()" style="margin-top: 10px; padding: 8px 15px; background: #002147; color: white; border: none; cursor: pointer; font-size: 13px;">Use My Current Location</button>
+    </fieldset>
+
+    <fieldset>
+        <legend>Package Selection <span style="color: #d32f2f;">*</span></legend>
+
+        <div class="row package-row">
+            <div class="package-left">
+                <table>
+                    <tr>
+                        <th>Package</th>
+                        <th>Speed</th>
+                        <th>Monthly Data Allowance</th>
+                        <th>Monthly Fee (MWK)</th>
+                        <th>Select</th>
+                    </tr>
+                    <tr>
+                        <td>Tiyeni Standard - up to 8 devices, 2 streaming</td>
+                        <td>10</td>
+                        <td>Unlimited</td>
+                        <td>49,500</td>
+                        <td><input type="radio" name="package" value="Tiyeni Standard" required></td>
+                    </tr>
+                    <tr>
+                        <td>Tiyeni Premium - up to 12 devices, 3 streaming</td>
+                        <td>20</td>
+                        <td>Unlimited</td>
+                        <td>79,500</td>
+                        <td><input type="radio" name="package" value="Tiyeni Premium" required></td>
+                    </tr>
+                    <tr>
+                        <td>Tiyeni Executive - up to 14 devices, 4 streaming</td>
+                        <td>40</td>
+                        <td>Unlimited</td>
+                        <td>109,500</td>
+                        <td><input type="radio" name="package" value="Tiyeni Executive" required></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="advance-payment">
+                <div class="advance-payment-title">Advance Payment</div>
+                <label class="advance-option">
+                    <input type="radio" name="advancePayment" value="3 Months">
+                    3 months advance payment
+                </label>
+                <label class="advance-option">
+                    <input type="radio" name="advancePayment" value="6 Months">
+                    6 months advance payment
+                </label>
+            </div>
+        </div>
+    </fieldset>
+
+    <ul class="equipment-notice" style="margin-top: 15px;">
+        <li>No installation fee for <strong>three months</strong> advance payment</li>
+        <li>No installation fee and equipment deposit fee for <strong>six months</strong> advance payment</li>
+    </ul>
+
+    <fieldset>
+        <legend>Additional Payments</legend>
+
+        <ul class="equipment-notice">
+            <li>Standard Installation: MWK 50,000</li>
+            <li>Refundable Deposit for Equipment: MWK 50,000</li>
+            
+        </ul>
+    </fieldset>
+
+    <div class="footer-note">
+        All of the above prices include VAT and are subject to change.  
+        This application is subject to approval and acceptance of the Terms & Conditions.
+    </div>
+
+    <div class="terms-link">
+        <strong>Please read and accept our <a href="#terms-and-conditions" onclick="scrollToTerms()">Terms and Conditions</a> before signing.</strong>
+    </div>
+
+    <fieldset>
+        <legend>Signature Section</legend>
+        
+        <div class="agreement-checkbox">
+            <label>
+                <input type="checkbox" id="agreeTerms" required>
+                I have read and agree to the <a href="#terms-and-conditions" onclick="event.preventDefault(); scrollToTerms(); return false;">Terms and Conditions</a>
+            </label>
+        </div>
+
+        <div class="signature-section">
+            <label><strong>Digital Signature <span style="color: #d32f2f;">*</span>:</strong></label>
+            <p style="font-size: 12px; color: #666; margin: 5px 0;">Please sign below using your mouse or touchpad, or upload a signature image</p>
+            
+            <div class="signature-container">
+                <canvas id="signatureCanvas"></canvas>
+            </div>
+            
+            <div class="signature-controls">
+                <button type="button" class="btn-clear" onclick="clearSignature()">Clear Signature</button>
+            </div>
+
+            <div class="signature-upload">
+                <label><strong>Or upload signature image:</strong></label>
+                <input type="file" id="signatureUpload" accept="image/*" onchange="handleSignatureUpload(event)">
+            </div>
+
+            <div class="signature-preview" id="signaturePreview">
+                <p><strong>Signature Preview:</strong></p>
+                <img id="signatureImage" src="" alt="Signature">
+            </div>
+        </div>
+    </fieldset>
+
+    
+
+    <div class="logos">
+        Powered by Mikrotik · Ubiquiti · NetGate Firewall · Sophos
+    </div>
+
+    </form>
+
+    <!-- Terms and Conditions Section -->
+    <div id="terms-and-conditions" class="terms-section">
+        <h1>Terms and Conditions</h1>
+
+        <div class="section">
+            <h2>1) For all of our services:</h2>
+            <div class="subsection">
+                <p><strong>(a)</strong> "Charges" means any monthly tariffs, installation, activation, connection charges and/or surcharges/tax/VAT applicable to the activated Services at the rates published by Converged Technology Networks (CTN).</p>
+                <p><strong>(b)</strong> "Equipment" means Customer Premises Equipment CPE, including outdoor unit, indoor unit, Wifi Router/ Gateway cables supplied to the Customer by CTN.</p>
+                <p><strong>(c)</strong> "Service(s)" means all and/or any Service(s) categorically described overleaf as elected by the Customer subject to any modification and variation by CTN from time to time.</p>
+                <p><strong>(d)</strong> "Encryption Device" means any device used to protect and/or secure data / voice transmissions.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>2) Provision of Services by CTN:</h2>
+            <div class="subsection">
+                <p><strong>(A)</strong> CTN will establish and maintain the Connection and will endeavor to make the desired Service(s) available to the Customer throughout the term of this contract.</p>
+                <p><strong>(B)</strong> All or any Service(s) will be provided in accordance with the applicable law and CTN Policy.</p>
+                <p><strong>(C)</strong> All Equipment, except paid, will remain the asset of CTN and customers are bound to return the Equipment in its original working condition in the event of termination of Service(s).</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3) Payments and Charges:</h2>
+            <div class="subsection">
+                <p><strong>(A)</strong> All the Payments and Charges for the Service(s) under this Contract shall exclusively be determined/revised by CTN from time to time. The revised Tariff or Charges shall be notified to customer through Electronic or Print Media. The revised Charges will apply to the Customer from the date of notification.</p>
+                <p><strong>(B)</strong> The Customer shall unconditionally pay all applicable charges mentioned in the invoice within the specified time.</p>
+                <p><strong>(C)</strong> Failure to make Payment within due date would:</p>
+                <ul>
+                    <li><strong>(i)</strong> Result in immediate disconnection / suspension / termination of the Service and Contract;</li>
+                </ul>
+                <p><strong>(D)</strong> Render the Customer to pay applicable reconnection charges, if a reconnection is requested, and before reconnection, the Customer shall pay an advance against future payments, if required;</p>
+                <p><strong>(E)</strong> Customer shall pay Monthly Charges till the suspension or disconnection of the Service(s) becomes effective, whether such suspension/disconnection is required by the Customer (or by a person acting on behalf of the Customer) or by CTN in accordance with Clause 8 of this contract.</p>
+                <p><strong>(F)</strong> CTN reserves the right to determine an appropriate credit limit to the Customer for availing the Service(s). Such credit limit shall be secured either by a refundable cash deposit placed by the Customer with CTN or other adequate security or alternate arrangement acceptable to CTN. In the event such credit limit is exceeded at any time, CTN is entitled to disconnect or suspend the Service(s) to the Customer and/or terminate the Contract.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4) Duration and Time:</h2>
+            <p>This contract shall commence on the date of approval by CTN after signing of this form along with these Terms & Conditions by the Customer and, the provisions of this Contract shall continue thereafter until terminated by either party hereto.</p>
+        </div>
+
+        <div class="section">
+            <h2>5) Prohibition of Assignment:</h2>
+            <p>Rights and obligations of the Customer under this contract shall not be assigned without prior written consent of CTN.</p>
+        </div>
+
+        <div class="section">
+            <h2>6) Warranties:</h2>
+            <div class="subsection">
+                <p><strong>(A)</strong> In addition to terms contained in the warranty card, the Equipment purchased by the Customer from CTN, is free from defects in material and workmanship, and the Customer acknowledges that commencement of Service(s) shall be deemed to be a discharge of this warranty.</p>
+                <p><strong>(B)</strong> This warranty is specifically limited to defects in material and workmanship in the Equipment and does not apply where the Equipment is used in combination with equipment not supplied, manufactured or expressly approved by CTN. It shall also not apply to repair or replacement necessitated by catastrophe, misuse, abuse, fault or negligence, user modification, improper maintenance or operation, user alteration or damages due to spilling of food or liquids, and normal wear and tear.</p>
+                <p><strong>(C)</strong> CTN hereby disclaims all liabilities whatsoever in respect of and/or arising out of the Service(s) provided, except for the warranty provided in paragraph (A) above.</p>
+                <p><strong>(D)</strong> Warranty for Indoor & outdoor units is applicable for one year from date of installation.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>7) Use of the Service via Customer Premises Equipment:</h2>
+            <div class="subsection">
+                <p><strong>(A)</strong> CTN reserves the right to issue any instructions regarding the use of the Service(s) / Service Level(s) as it may from time to time consider necessary to maintain the integrity, quality and safety of the Service(s) for all Customers and such instructions shall be deemed as an integral part of this contract.</p>
+                <p><strong>(B)</strong> The Customer is personally responsible for the use of all Services and System under this Contract and shall neither use nor permit any person to use the Services/System for:</p>
+                <ul>
+                    <li><strong>(i)</strong> Any activity which is abusive, offensive, indecent, obscene or menacing messages or communications, or misusing Equipment or Services for any activity which is improper/unlawful /immoral and prohibited under any of the applicable laws of Malawi.</li>
+                    <li><strong>(ii)</strong> The Customer will not be authorized to use the Customer equipment provided by CTN on any other operator's network.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>8) Suspension/Disconnection and Termination:</h2>
+            <div class="subsection">
+                <p><strong>(A)</strong> CTN reserves the right to suspend/terminate the Services with immediate effect in case of non payment of bill within due date. The Services shall be resumed on payment of all arrears/outstanding dues /charges as per CTN Policy.</p>
+                <p><strong>(B)</strong> CTN may at any time and without notice suspend, disconnect and/or terminate any or all the Service(s), and the Customer hereby waives all claims and rights in respect thereof including the right to contest such suspension, disconnection and/or termination.</p>
+                <p><strong>(C)</strong> This Contract shall automatically and without notice terminate, without prejudice to accrued rights of CTN, in the event of the Customer becoming bankrupt or otherwise insolvent or death of the Customer;</p>
+                <p><strong>(D)</strong> Upon termination of this Contract, the Customer shall forthwith pay CTN:</p>
+                <ul>
+                    <li><strong>(i)</strong> All amounts due to CTN at the time of termination together with any late payment charges, surcharges or whatsoever.</li>
+                    <li><strong>(ii)</strong> All costs including legal fees reasonably incurred by CTN in enforcing its rights under this contract including the recovery of monies.</li>
+                </ul>
+                <p><strong>(E)</strong> Notwithstanding the above CTN may terminate any or all Service(s) without any reason whatsoever.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>9) Arbitration and Applicable Law:</h2>
+            <p>If any difference or dispute, in any way connected with this Contract, shall arise between the parties hereto which cannot be settled amicably within a period of one (1) month, then such difference or dispute shall be referred to MACRA and its decision shall be final and binding on the parties hereto. This Contract shall be governed by the laws of the Republic of Malawi.</p>
+        </div>
+
+        <div class="section">
+            <h2>10) Additional Terms:</h2>
+            <div class="subsection">
+                <p><strong>(a)</strong> This Contract including the particulars overleaf constitutes the entire agreement between CTN and the Customer(s).</p>
+                <p><strong>(b)</strong> CTN in its exclusive discretion reserves the right to refuse, change or remove Customer ID's/Passwords/PINS which it deems inappropriate or offensive.</p>
+                <p><strong>(c)</strong> For any change in particulars overleaf, the Customer undertakes to inform CTN immediately.</p>
+                <p><strong>(d)</strong> Service to any or all Customers may be temporarily interrupted or curtailed because of Equipment modification, upgrades, relocations, repairs and similar activities necessary for the proper operation of Service. However, in the event a scheduled interruption is planned, reasonable notice will be given.</p>
+                <p><strong>(e)</strong> The Customer will not infringe any copyright or intellectual property right to the information and resources available via the service by CTN.</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+            <a href="#" onclick="event.preventDefault(); scrollToTop(); return false;" style="color: #002147; text-decoration: none; font-weight: bold; font-size: 14px;">← Back to Application Form</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let signatureDataURL = null;
+
+    // Set canvas size
+    function resizeCanvas() {
+        const container = canvas.parentElement;
+        const containerWidth = container.clientWidth - 20;
+        canvas.width = containerWidth;
+        canvas.height = 150;
+        
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Save form data to localStorage
+    function saveFormData() {
+        const formData = {
+            // Text inputs
+            title: document.querySelector('input[name="title"]')?.value || '',
+            firstName: document.querySelector('input[name="firstName"]')?.value || '',
+            surname: document.querySelector('input[name="surname"]')?.value || '',
+            contactNumber: document.querySelector('input[name="contactNumber"]')?.value || '',
+            emailAddress: document.querySelector('input[name="emailAddress"]')?.value || '',
+            physicalAddress: document.querySelector('input[name="physicalAddress"]')?.value || '',
+            applicationDate: document.querySelector('input[name="applicationDate"]')?.value || '',
+            // Identity
+            identityType: document.getElementById('identityType')?.value || '',
+            identityNumber: document.getElementById('identityNumber')?.value || '',
+            // Location
+            latitude: document.getElementById('latitude')?.value || '',
+            longitude: document.getElementById('longitude')?.value || '',
+            // Package
+            package: document.querySelector('input[name="package"]:checked')?.value || '',
+            // Advance payment (optional)
+            advancePayment: document.querySelector('input[name="advancePayment"]:checked')?.value || '',
+            // Payment method
+            paymentMethod: Array.from(document.querySelectorAll('input[name="paymentMethod"]:checked')).map(cb => cb.value),
+            // Terms
+            agreeTerms: document.getElementById('agreeTerms')?.checked || false,
+            // Signature
+            signatureDataURL: signatureDataURL || ''
+        };
+        sessionStorage.setItem('ctnFormData', JSON.stringify(formData));
+    }
+
+    // Restore form data from localStorage
+    function restoreFormData() {
+        const savedData = sessionStorage.getItem('ctnFormData');
+        if (!savedData) return;
+
+        try {
+            const formData = JSON.parse(savedData);
+            
+            // Restore text inputs
+            if (formData.title) document.querySelector('input[name="title"]').value = formData.title;
+            if (formData.firstName) document.querySelector('input[name="firstName"]').value = formData.firstName;
+            if (formData.surname) document.querySelector('input[name="surname"]').value = formData.surname;
+            if (formData.contactNumber) document.querySelector('input[name="contactNumber"]').value = formData.contactNumber;
+            if (formData.emailAddress) document.querySelector('input[name="emailAddress"]').value = formData.emailAddress;
+            if (formData.physicalAddress) document.querySelector('input[name="physicalAddress"]').value = formData.physicalAddress;
+            if (formData.applicationDate) document.querySelector('input[name="applicationDate"]').value = formData.applicationDate;
+            
+            // Restore identity
+            if (formData.identityType) {
+                document.getElementById('identityType').value = formData.identityType;
+                handleIdentityTypeChange();
+                if (formData.identityNumber) {
+                    document.getElementById('identityNumber').value = formData.identityNumber;
+                }
+            }
+            
+            // Restore location
+            if (formData.latitude && formData.longitude) {
+                document.getElementById('latitude').value = formData.latitude;
+                document.getElementById('longitude').value = formData.longitude;
+                // Restore map marker if map is initialized
+                if (map && typeof L !== 'undefined') {
+                    const lat = parseFloat(formData.latitude);
+                    const lng = parseFloat(formData.longitude);
+                    if (!isNaN(lat) && !isNaN(lng)) {
+                        if (marker) {
+                            map.removeLayer(marker);
+                        }
+                        marker = L.marker([lat, lng]).addTo(map);
+                        map.setView([lat, lng], 15);
+                    }
+                }
+            }
+            
+            // Restore package
+            if (formData.package) {
+                const packageRadio = document.querySelector(`input[name="package"][value="${formData.package}"]`);
+                if (packageRadio) packageRadio.checked = true;
+            }
+            
+            // Restore advance payment (optional)
+            if (formData.advancePayment) {
+                const advanceRadio = document.querySelector(`input[name="advancePayment"][value="${formData.advancePayment}"]`);
+                if (advanceRadio) advanceRadio.checked = true;
+            }
+            
+            // Restore payment method
+            if (formData.paymentMethod && formData.paymentMethod.length > 0) {
+                formData.paymentMethod.forEach(value => {
+                    const checkbox = document.querySelector(`input[name="paymentMethod"][value="${value}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+            
+            // Restore terms agreement
+            if (formData.agreeTerms) {
+                document.getElementById('agreeTerms').checked = true;
+            }
+            
+            // Restore signature
+            if (formData.signatureDataURL) {
+                signatureDataURL = formData.signatureDataURL;
+                const img = new Image();
+                img.onload = function() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    updateSignaturePreview();
+                };
+                img.src = formData.signatureDataURL;
+            }
+        } catch (e) {
+            console.error('Error restoring form data:', e);
+        }
+    }
+
+    // Clear form data from localStorage
+    function clearFormData() {
+        sessionStorage.removeItem('ctnFormData');
+    }
+
+    // Check if form is complete and enable/disable print button
+    function checkFormCompletion() {
+        const errors = validateForm();
+        const printBtn = document.getElementById('printButton') || document.querySelector('.print-btn');
+        
+        if (printBtn) {
+            if (errors.length === 0) {
+                printBtn.disabled = false;
+                printBtn.style.opacity = '1';
+                printBtn.style.cursor = 'pointer';
+                printBtn.style.background = '#002147';
+            } else {
+                printBtn.disabled = true;
+                printBtn.style.opacity = '0.6';
+                printBtn.style.cursor = 'not-allowed';
+                printBtn.style.background = '#666';
+            }
+        }
+    }
+
+    // Add event listeners to save form data on change
+    document.addEventListener('DOMContentLoaded', function() {
+        // Save data when any input changes
+        const form = document.getElementById('applicationForm');
+        if (form) {
+            form.addEventListener('input', function() {
+                saveFormData();
+                setTimeout(checkFormCompletion, 100);
+            });
+            form.addEventListener('change', function() {
+                saveFormData();
+                setTimeout(checkFormCompletion, 100);
+            });
+        }
+        
+        // Save signature when drawn
+        canvas.addEventListener('mouseup', function() {
+            setTimeout(function() {
+                saveFormData();
+                checkFormCompletion();
+            }, 100);
+        });
+        canvas.addEventListener('touchend', function() {
+            setTimeout(function() {
+                saveFormData();
+                checkFormCompletion();
+            }, 100);
+        });
+        
+        // Initial check after a short delay to ensure everything is loaded
+        setTimeout(checkFormCompletion, 500);
+    });
+
+    // Mouse events
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    // Touch events
+    canvas.addEventListener('touchstart', handleTouch);
+    canvas.addEventListener('touchmove', handleTouch);
+    canvas.addEventListener('touchend', stopDrawing);
+
+    function startDrawing(e) {
+        isDrawing = true;
+        const rect = canvas.getBoundingClientRect();
+        lastX = e.clientX - rect.left;
+        lastY = e.clientY - rect.top;
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        
+        const rect = canvas.getBoundingClientRect();
+        const currentX = e.clientX - rect.left;
+        const currentY = e.clientY - rect.top;
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(currentX, currentY);
+        ctx.stroke();
+
+        lastX = currentX;
+        lastY = currentY;
+    }
+
+    function stopDrawing() {
+        if (isDrawing) {
+            isDrawing = false;
+            updateSignaturePreview();
+        }
+    }
+
+    function handleTouch(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                         e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+    }
+
+    function clearSignature() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        document.getElementById('signaturePreview').style.display = 'none';
+        document.getElementById('signatureImage').src = '';
+        signatureDataURL = null;
+        document.getElementById('signatureUpload').value = '';
+    }
+
+    function updateSignaturePreview() {
+        if (!isCanvasEmpty()) {
+            signatureDataURL = canvas.toDataURL('image/png');
+            const preview = document.getElementById('signaturePreview');
+            const img = document.getElementById('signatureImage');
+            img.src = signatureDataURL;
+            preview.style.display = 'block';
+            // Save and check form completion
+            setTimeout(function() {
+                saveFormData();
+                if (typeof checkFormCompletion === 'function') {
+                    checkFormCompletion();
+                }
+            }, 100);
+        }
+    }
+
+    function isCanvasEmpty() {
+        const blank = document.createElement('canvas');
+        blank.width = canvas.width;
+        blank.height = canvas.height;
+        return canvas.toDataURL() === blank.toDataURL();
+    }
+
+    function handleSignatureUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // Clear canvas and draw uploaded image
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    signatureDataURL = canvas.toDataURL('image/png');
+                    updateSignaturePreview();
+                    // Save form data after signature upload
+                    setTimeout(function() {
+                        saveFormData();
+                        checkFormCompletion();
+                    }, 100);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function validateForm() {
+        const errors = [];
+
+        // Validate all required text/date/select fields
+        const requiredFields = document.querySelectorAll('input[required], select[required]');
+        requiredFields.forEach(field => {
+            if (field.type === 'checkbox' || field.type === 'radio') {
+                return; // Handle separately
+            }
+            if (!field.value || field.value.trim() === '') {
+                const label = field.previousElementSibling?.textContent || field.name;
+                errors.push(`${label.replace(' *', '')} is required`);
+            }
+        });
+
+        // Validate payment method (at least one checkbox must be checked)
+        const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
+        const paymentChecked = Array.from(paymentMethods).some(cb => cb.checked);
+        if (!paymentChecked) {
+            errors.push('Please select at least one payment method (Cheque or Cash)');
+        }
+
+        // Validate package selection (radio button)
+        const packageSelected = document.querySelector('input[name="package"]:checked');
+        if (!packageSelected) {
+            errors.push('Please select a package');
+        }
+
+        // Advance payment is optional - no validation needed
+
+        // Validate identity number (required when identity type is selected)
+        const identityType = document.getElementById('identityType').value;
+        if (!identityType) {
+            errors.push('Please select an identity type');
+        } else {
+            const identityNumber = document.getElementById('identityNumber');
+            if (!identityNumber.value || identityNumber.value.trim() === '') {
+                const label = document.getElementById('identityNumberLabel').textContent;
+                errors.push(`${label} is required`);
+            }
+        }
+
+        // Validate coordinates
+        const latitude = document.getElementById('latitude').value;
+        const longitude = document.getElementById('longitude').value;
+        if (!latitude || !longitude || latitude.trim() === '' || longitude.trim() === '') {
+            errors.push('Please select your location on the map (click on map or use "Use My Current Location" button)');
+            document.getElementById('latitude').setCustomValidity('Location required');
+            document.getElementById('longitude').setCustomValidity('Location required');
+        } else {
+            document.getElementById('latitude').setCustomValidity('');
+            document.getElementById('longitude').setCustomValidity('');
+        }
+
+        // Validate terms agreement
+        if (!document.getElementById('agreeTerms').checked) {
+            errors.push('Please accept the Terms and Conditions');
+        }
+
+        // Validate signature
+        if (isCanvasEmpty() && !signatureDataURL) {
+            errors.push('Please provide a signature (draw or upload)');
+        }
+
+        return errors;
+    }
+
+    // Scroll to terms and conditions section
+    function scrollToTerms() {
+        const termsSection = document.getElementById('terms-and-conditions');
+        if (termsSection) {
+            termsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // Scroll back to top
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function printForm() {
+        // Comprehensive form validation
+        const errors = validateForm();
+        
+        if (errors.length > 0) {
+            const errorMessage = 'Please complete all required fields before printing:\n\n' + errors.join('\n') + '\n\nPlease fill in all missing information and try again.';
+            alert(errorMessage);
+            
+            // Scroll to first error field
+            const firstError = document.querySelector('input:invalid, select:invalid');
+            if (firstError) {
+                firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstError.focus();
+            }
+            return;
+        }
+
+        // Ensure signature is captured
+        if (!signatureDataURL) {
+            signatureDataURL = canvas.toDataURL('image/png');
+        }
+
+        // Hide signature preview for printing (only canvas should show)
+        const preview = document.getElementById('signaturePreview');
+        if (preview) {
+            preview.style.display = 'none';
+        }
+
+        // Convert checkboxes to visible text for printing
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                const label = document.querySelector(`label[for="${cb.id}"]`) || cb.parentElement;
+                if (label && !label.classList.contains('checkbox-printed')) {
+                    label.classList.add('checkbox-printed');
+                    const printedMark = document.createElement('span');
+                    printedMark.textContent = ' ✓';
+                    printedMark.style.fontWeight = 'bold';
+                    label.appendChild(printedMark);
+                }
+            }
+        });
+
+        // Show selected package in the table
+        const packageRadios = document.querySelectorAll('input[name="package"]');
+        packageRadios.forEach(radio => {
+            if (radio.checked) {
+                const row = radio.closest('tr');
+                if (row) {
+                    row.style.backgroundColor = '#f0f0f0';
+                    const selectCell = row.querySelector('td:last-child');
+                    if (selectCell) {
+                        selectCell.innerHTML = '<strong>SELECTED ✓</strong>';
+                    }
+                }
+            }
+        });
+
+        // Wait a moment for DOM updates, then print
+        setTimeout(() => {
+            window.print();
+            
+            // Clear saved form data after successful printing
+            clearFormData();
+            
+            // Clean up after printing (optional)
+            setTimeout(() => {
+                checkboxes.forEach(cb => {
+                    const label = document.querySelector(`label[for="${cb.id}"]`) || cb.parentElement;
+                    if (label) {
+                        label.classList.remove('checkbox-printed');
+                        const mark = label.querySelector('span');
+                        if (mark && mark.textContent.includes('✓')) {
+                            mark.remove();
+                        }
+                    }
+                });
+            }, 1000);
+        }, 100);
+    }
+
+    function handleSubmit(event) {
+        // This function is kept for compatibility but redirects to print
+        event.preventDefault();
+        printForm();
+        return false;
+    }
+
+    function handleIdentityTypeChange() {
+        const identityType = document.getElementById('identityType').value;
+        const identityNumberField = document.getElementById('identityNumberField');
+        const identityNumberLabel = document.getElementById('identityNumberLabel');
+        const identityNumberInput = document.getElementById('identityNumber');
+
+        if (identityType) {
+            // Show the number field
+            identityNumberField.style.display = 'block';
+            identityNumberInput.required = true;
+            
+            // Update label and input name based on selection
+            switch(identityType) {
+                case 'idNumber':
+                    identityNumberLabel.textContent = 'ID Number';
+                    identityNumberInput.name = 'idNumber';
+                    break;
+                case 'passportNumber':
+                    identityNumberLabel.textContent = 'Passport Number';
+                    identityNumberInput.name = 'passportNumber';
+                    break;
+                case 'driversLicence':
+                    identityNumberLabel.textContent = 'Driver\'s Licence Number';
+                    identityNumberInput.name = 'driversLicenceNumber';
+                    break;
+            }
+            // Clear the input when switching types
+            identityNumberInput.value = '';
+        } else {
+            // Hide the number field if no type is selected
+            identityNumberField.style.display = 'none';
+            identityNumberInput.value = '';
+            identityNumberInput.required = false;
+        }
+        
+        // Save and check form completion
+        setTimeout(function() {
+            saveFormData();
+            checkFormCompletion();
+        }, 100);
+    }
+
+    // Map initialization
+    let map;
+    let marker;
+    let defaultLat = -13.9626; // Default to Lilongwe, Malawi
+    let defaultLng = 33.7741;
+
+    // Initialize map when page loads
+    window.addEventListener('DOMContentLoaded', function() {
+        initializeMap();
+        // Restore form data after map is initialized
+        setTimeout(function() {
+            restoreFormData();
+            // Re-check form completion after restoring data
+            if (typeof checkFormCompletion === 'function') {
+                checkFormCompletion();
+            }
+        }, 600);
+    });
+
+    function initializeMap() {
+        // Initialize map centered on Malawi (Lilongwe)
+        map = L.map('map').setView([defaultLat, defaultLng], 10);
+
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Add click event to drop pin
+        map.on('click', function(e) {
+            const lat = e.latlng.lat;
+            const lng = e.latlng.lng;
+            
+            // Remove existing marker if any
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            
+            // Add new marker
+            marker = L.marker([lat, lng]).addTo(map);
+            
+            // Update coordinate fields
+            document.getElementById('latitude').value = lat.toFixed(6);
+            document.getElementById('longitude').value = lng.toFixed(6);
+            
+            // Remove any validation errors
+            document.getElementById('latitude').setCustomValidity('');
+            document.getElementById('longitude').setCustomValidity('');
+            
+            // Save form data
+            setTimeout(function() {
+                saveFormData();
+                checkFormCompletion();
+            }, 100);
+        });
+    }
+
+    function getCurrentLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    
+                    // Remove existing marker if any
+                    if (marker) {
+                        map.removeLayer(marker);
+                    }
+                    
+                    // Add marker at current location
+                    marker = L.marker([lat, lng]).addTo(map);
+                    
+                    // Center map on current location
+                    map.setView([lat, lng], 15);
+                    
+                    // Update coordinate fields
+                    document.getElementById('latitude').value = lat.toFixed(6);
+                    document.getElementById('longitude').value = lng.toFixed(6);
+                    
+                    // Remove any validation errors
+                    document.getElementById('latitude').setCustomValidity('');
+                    document.getElementById('longitude').setCustomValidity('');
+                    
+                    // Save form data
+                    setTimeout(function() {
+                        saveFormData();
+                        checkFormCompletion();
+                    }, 100);
+                },
+                function(error) {
+                    alert('Unable to get your location. Please click on the map to select your location manually.');
+                    console.error('Geolocation error:', error);
+                }
+            );
+        } else {
+            alert('Geolocation is not supported by your browser. Please click on the map to select your location manually.');
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Check, Wifi, Zap, Sparkles, Rocket, ArrowRight } from "lucide-react";
+import { Check, Wifi, Zap, Users, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { CoverageCheckModal } from "../components/CoverageCheckModal";
@@ -62,7 +62,7 @@ export function PackagesPage() {
       id: "advanced",
       speed: "100Mbps",
       price: "Contact for pricing",
-      icon: Rocket,
+      icon: Zap,
       gradient: "from-orange-400 to-red-600",
       features: [
         "Unlimited Data",
@@ -78,7 +78,7 @@ export function PackagesPage() {
       id: "ultimate",
       speed: "300Mbps",
       price: "Contact for pricing",
-      icon: Sparkles,
+      icon: Users,
       gradient: "from-purple-400 to-pink-600",
       features: [
         "Unlimited Data",
@@ -312,6 +312,31 @@ export function PackagesPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Business Packages Link Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-gradient-to-br from-[#1e3a5f] to-[#2d4a6f] rounded-3xl p-12"
+          >
+            <h2 className="text-white mb-4">Looking for Business Solutions?</h2>
+            <p className="text-white/80 text-xl mb-8">
+              Explore our specialized business packages designed for enterprises and growing companies.
+            </p>
+            <Link
+              to="/business-packages"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#a4d65e] to-[#8bc34a] text-[#1e3a5f] px-8 py-4 rounded-full hover:shadow-2xl hover:shadow-[#a4d65e]/50 transition-all font-semibold"
+            >
+              View Business Packages
+              <ArrowRight size={20} />
+            </Link>
+          </motion.div>
         </div>
       </section>
 

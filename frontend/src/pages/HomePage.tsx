@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ArrowRight, Wifi, Zap, Shield, TrendingUp } from "lucide-react";
+import { ArrowRight, Wifi, Zap, Shield, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { NetworkBackground } from "../components/NetworkBackground";
 
@@ -8,7 +8,7 @@ export function HomePage() {
     { icon: Zap, value: "300Mbps", label: "Max Speed", color: "from-yellow-400 to-orange-500" },
     { icon: Wifi, value: "Unlimited", label: "Data", color: "from-[#a4d65e] to-[#8bc34a]" },
     { icon: Shield, value: "99.9%", label: "Uptime", color: "from-blue-400 to-blue-600" },
-    { icon: TrendingUp, value: "24/7", label: "Support", color: "from-purple-400 to-pink-500" },
+    { icon: Phone, value: "24/7", label: "Support", color: "from-purple-400 to-pink-500" },
   ];
 
   const features = [
@@ -32,7 +32,7 @@ export function HomePage() {
   return (
     <div className="overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0a1628] via-[#1e3a5f] to-[#2d4a6f] pt-20">
+      <section className="relative min-h-[60vh] md:min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0a1628] via-[#1e3a5f] to-[#2d4a6f] pt-20">
         <NetworkBackground />
         
         {/* Animated gradient orbs */}

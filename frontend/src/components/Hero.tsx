@@ -18,7 +18,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#1e3a5f] via-[#2d4a6f] to-[#1e3a5f] pt-20"
+      className="relative min-h-[60vh] md:min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#1e3a5f] via-[#2d4a6f] to-[#1e3a5f] pt-20"
     >
       {/* Animated Background Pattern */}
       <div className="absolute inset-0 opacity-10">

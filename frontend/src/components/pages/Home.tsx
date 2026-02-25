@@ -8,7 +8,7 @@ import thandaManduwiPhoto from '../../assets/thanda-manduwi.avif';
 import macdonaldNyoniPhoto from '../../assets/macdonald-nyoni.avif';
 import kbgPhoto from '../../assets/kbg.avif';
 // Import hero image
-import familyWatchingTv from '../../assets/family-watching-tv.webp';
+import familyImage from '../../assets/family.png';
 
 export function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -85,7 +85,7 @@ export function Home() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-[60vh] md:min-h-screen">
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 px-4">
         <div className="max-w-7xl mx-auto">
@@ -128,8 +128,8 @@ export function Home() {
             >
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src={familyWatchingTv}
-                  alt="Family watching TV"
+                  src={familyImage}
+                  alt="Family"
                   className="w-full h-[400px] object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1e3a5f] via-transparent to-transparent" />

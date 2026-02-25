@@ -17,10 +17,16 @@ export function NetworkBackground() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size
+    // Set canvas size to match its parent container when available
     const setCanvasSize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const parent = canvas.parentElement;
+      if (parent) {
+        canvas.width = parent.clientWidth;
+        canvas.height = parent.clientHeight;
+      } else {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
     };
     setCanvasSize();
     window.addEventListener('resize', setCanvasSize);
@@ -88,10 +94,10 @@ export function NetworkBackground() {
     };
   }, []);
 
-  return (
+    return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 w-full h-full pointer-events-none"
+      className="absolute inset-0 w-full h-full pointer-events-none"
       style={{ background: 'linear-gradient(135deg, #0a1929 0%, #1e3a5f 100%)' }}
     />
   );

@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -18,16 +18,31 @@ export function Footer() {
               Connecting Malawi with 4G and Broadband Network. CTN, Tiyeni pamodzi!!
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-white/60 hover:text-[#a4d65e] transition-colors">
+              <a 
+                href="https://www.facebook.com/share/1D8BsSSktN/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-[#a4d65e] transition-colors"
+                aria-label="Visit CTN on Facebook"
+              >
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="text-white/60 hover:text-[#a4d65e] transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className="text-white/60 hover:text-[#a4d65e] transition-colors">
+              <a 
+                href="https://www.instagram.com/convergedmalawi?igsh=Njl1MzVkNnUxemVt" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-[#a4d65e] transition-colors"
+                aria-label="Visit CTN on Instagram"
+              >
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="text-white/60 hover:text-[#a4d65e] transition-colors">
+              <a 
+                href="https://www.linkedin.com/company/converged-technology-networks/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-white/60 hover:text-[#a4d65e] transition-colors"
+                aria-label="Visit CTN on LinkedIn"
+              >
                 <Linkedin className="w-5 h-5" />
               </a>
             </div>

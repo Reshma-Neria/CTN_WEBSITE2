@@ -9,12 +9,185 @@ interface Message {
   timestamp: Date;
 }
 
+// Comprehensive CTN Knowledge Base
+const CTN_KNOWLEDGE_BASE = {
+  company: {
+    name: 'CTN (Converged Technology Networks)',
+    description: "Malawi's leading internet service provider, dedicated to delivering exceptional connectivity solutions",
+    mission: 'To provide Malawi with world-class internet connectivity that empowers individuals, businesses, and communities',
+    tagline: 'Connecting Malawi to the World',
+  },
+  packages: [
+    {
+      speed: '10Mbps',
+      price: 'Contact for pricing',
+      ideal: 'Home browsing',
+      features: ['Unlimited Data', 'Perfect for browsing & email', '1-2 devices', 'Free Installation', 'Router included', '24/7 Support'],
+    },
+    {
+      speed: '20Mbps',
+      price: 'Contact for pricing',
+      ideal: 'Home streaming',
+      features: ['Unlimited Data', 'Great for streaming', '2-3 devices', 'Free Installation', 'Router included', 'Priority Support'],
+    },
+    {
+      speed: '50Mbps',
+      price: 'Contact for pricing',
+      ideal: 'Family usage',
+      popular: true,
+      features: ['Unlimited Data', 'HD streaming & gaming', '4-6 devices', 'Free Installation', 'Premium Router', 'Priority Support'],
+    },
+    {
+      speed: '100Mbps',
+      price: 'Contact for pricing',
+      ideal: 'Heavy users',
+      features: ['Unlimited Data', '4K streaming & gaming', '6-10 devices', 'Free Installation', 'Premium Router', 'Dedicated Support'],
+    },
+    {
+      speed: '300Mbps',
+      price: 'Contact for pricing',
+      ideal: 'Business & Pro',
+      features: ['Unlimited Data', 'Business & power users', '10+ devices', 'Free Installation', 'Enterprise Router', 'Dedicated Technician'],
+    },
+  ],
+  business: {
+    solutions: [
+      {
+        type: 'Office Solutions',
+        description: 'Enterprise-grade internet for business operations',
+        features: ['Dedicated bandwidth', 'Static IP address', 'Business SLA guarantee', 'Priority support', 'Scalable plans', 'Network monitoring'],
+      },
+      {
+        type: 'Conference Connectivity',
+        description: 'Seamless internet for conferences and large events',
+        features: ['High capacity bandwidth', 'Multiple access points', 'On-site technical support', 'Dedicated connection', 'Load balancing', '24/7 monitoring'],
+      },
+      {
+        type: 'Event Rentals',
+        description: 'Flexible short-term internet solutions',
+        features: ['Up to 300Mbps speed', 'Free setup & removal', 'Professional equipment', 'MK55,000/day', 'Custom duration', 'Technical on-site support'],
+      },
+    ],
+    benefits: [
+      '99.9% uptime guarantee with redundant systems',
+      'Enterprise-grade security with firewall protection',
+      'Assigned account manager and priority technical support',
+    ],
+    industries: ['Healthcare', 'Education', 'Finance', 'Retail', 'Hospitality', 'Manufacturing'],
+  },
+  contact: {
+    phone: '+265 981 187 766',
+    email: 'info@ctnmw.net',
+    website: 'www.ctnmw.net',
+    whatsapp: '+265 981 187 766',
+    offices: [
+      { city: 'Blantyre', address: 'Victoria Avenue, City Centre', hours: 'Mon-Fri: 8AM-5PM, Sat: 9AM-1PM' },
+      { city: 'Lilongwe', address: 'Capital City, Area 4', hours: 'Mon-Fri: 8AM-5PM, Sat: 9AM-1PM' },
+      { city: 'Mzuzu', address: 'M1 Road, Town Centre', hours: 'Mon-Fri: 8AM-5PM' },
+    ],
+    support: '24/7 customer support available',
+  },
+  services: {
+    installation: 'Professional installation service. Installation typically takes 24-48 hours from sign-up. Free installation included with all packages.',
+    coverage: 'CTN provides internet services across Malawi, with primary coverage in urban areas. Check coverage using our coverage map on the packages page.',
+    unlimited: 'All packages come with truly unlimited data - no caps, no throttling, no fair usage policies. Use as much data as you need.',
+    router: 'All packages include a router as part of the installation. We provide professional-grade equipment suited to your package speed.',
+    upgrade: 'You can upgrade or downgrade your package at any time. Contact our support team to make changes to your plan.',
+  },
+  partners: {
+    vision: 'Broadband For the Rest of Us',
+    description: 'Join us as we bring affordable, unlimited, uncapped and high quality internet to the market',
+    levels: [
+      {
+        name: 'Silver Partner',
+        description: 'Entry-level partnership providing installation and support services. Minimum team of two with own vehicle or transport needed.',
+      },
+      {
+        name: 'Gold Partner',
+        description: 'Silver Partners who meet/exceed install targets. Eligible to earn from sales with access to CRM and pipeline.',
+      },
+    ],
+    location: 'Currently available in Lilongwe only',
+  },
+  stats: {
+    maxSpeed: '300Mbps',
+    uptime: '99.9%',
+    support: '24/7',
+    teamMembers: '50+',
+    customers: '5000+',
+  },
+  faqs: [
+    {
+      q: 'Is the data really unlimited?',
+      a: 'Yes! All our packages come with truly unlimited data. No caps, no throttling, no fair usage policies. Use as much data as you need.',
+    },
+    {
+      q: 'How long does installation take?',
+      a: 'Installation typically takes 24-48 hours from the time you sign up. Our technicians will coordinate with you to schedule a convenient time.',
+    },
+    {
+      q: 'Do I need to buy a router?',
+      a: 'No, all packages include a router as part of the installation. We provide professional-grade equipment suited to your package speed.',
+    },
+    {
+      q: 'Can I upgrade my package later?',
+      a: 'Absolutely! You can upgrade or downgrade your package at any time. Contact our support team to make changes to your plan.',
+    },
+  ],
+};
+
+// Keywords that indicate questions outside CTN's scope
+const OUT_OF_SCOPE_KEYWORDS = [
+  'weather', 'news', 'sports', 'cooking', 'recipe', 'movie', 'music', 'game', 'entertainment',
+  'travel', 'hotel', 'flight', 'restaurant', 'shopping', 'fashion', 'beauty', 'health', 'medical',
+  'banking', 'loan', 'credit', 'insurance', 'investment', 'stock', 'crypto', 'bitcoin',
+  'education', 'school', 'university', 'course', 'degree', 'job', 'career', 'resume', 'interview',
+  'government', 'politics', 'election', 'law', 'legal', 'court',
+  'other company', 'competitor', 'rival', 'alternative to ctn',
+];
+
+// Check if question is outside CTN's scope
+function isOutOfScope(message: string): boolean {
+  const lowerMessage = message.toLowerCase();
+  
+  // Check for out-of-scope keywords
+  for (const keyword of OUT_OF_SCOPE_KEYWORDS) {
+    if (lowerMessage.includes(keyword)) {
+      return true;
+    }
+  }
+  
+  // Check if question is clearly not about CTN services
+  const ctnKeywords = ['ctn', 'internet', 'wifi', 'connection', 'package', 'speed', 'coverage', 'installation', 'business', 'partner'];
+  const hasCtnKeyword = ctnKeywords.some(keyword => lowerMessage.includes(keyword));
+  
+  // If no CTN-related keywords and question seems unrelated, it's out of scope
+  if (!hasCtnKeyword && lowerMessage.length > 10) {
+    // Check if it's a general question that doesn't relate to CTN
+    const generalQuestionPatterns = [
+      /^what is (?!.*(ctn|internet|wifi|connection|package|speed|coverage|installation|business|partner))/i,
+      /^how (?!.*(ctn|internet|wifi|connection|package|speed|coverage|installation|business|partner))/i,
+      /^where (?!.*(ctn|internet|wifi|connection|package|speed|coverage|installation|business|partner))/i,
+      /^when (?!.*(ctn|internet|wifi|connection|package|speed|coverage|installation|business|partner))/i,
+      /^why (?!.*(ctn|internet|wifi|connection|package|speed|coverage|installation|business|partner))/i,
+    ];
+    
+    for (const pattern of generalQuestionPatterns) {
+      if (pattern.test(message)) {
+        return true;
+      }
+    }
+  }
+  
+  return false;
+}
+
 export function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Hello! Welcome to CTN. How can I help you today?',
+      text: 'Hello! Welcome to CTN (Converged Technology Networks). I\'m here to help you with information about our internet services, packages, business solutions, and more. How can I assist you today?',
       isBot: true,
       timestamp: new Date(),
     },
@@ -31,60 +204,178 @@ export function Chatbot() {
   }, [messages]);
 
   const getBotResponse = (userMessage: string): string => {
-    const lowerMessage = userMessage.toLowerCase();
-
-    // Packages and pricing
-    if (lowerMessage.includes('package') || lowerMessage.includes('price') || lowerMessage.includes('cost')) {
-      return 'We offer unlimited internet packages from 10Mbps to 300Mbps. Our packages start at affordable rates with no data caps! Visit our Packages page to see all options, or I can help you find the right package for your needs.';
-    }
-
-    // Speed-related
-    if (lowerMessage.includes('speed') || lowerMessage.includes('fast') || lowerMessage.includes('mbps')) {
-      return 'All our packages offer unlimited data at various speeds: 10Mbps, 20Mbps, 50Mbps, 100Mbps, 200Mbps, and 300Mbps. What speed do you think you need?';
-    }
-
-    // Installation
-    if (lowerMessage.includes('install') || lowerMessage.includes('setup')) {
-      return 'We provide professional installation service! Our technicians will set up everything for you. Installation typically takes 1-2 business days after sign-up. Contact us to schedule an installation.';
-    }
-
-    // Coverage/availability
-    if (lowerMessage.includes('coverage') || lowerMessage.includes('available') || lowerMessage.includes('area')) {
-      return 'CTN provides internet services across Malawi, with primary coverage in urban areas. Contact us with your specific location, and we\'ll confirm availability in your area!';
-    }
-
-    // Business solutions
-    if (lowerMessage.includes('business') || lowerMessage.includes('company') || lowerMessage.includes('enterprise')) {
-      return 'We offer specialized business solutions with dedicated support, custom packages, and priority service. Visit our Business page or contact us directly to discuss your business needs.';
-    }
-
-    // Contact information
-    if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('email') || lowerMessage.includes('call')) {
-      return 'You can reach us at:\n📞 Phone: +265 981 187 766\n📧 Email: info@ctn.mw\n📍 Location: Lilongwe Area 47 Sector 1, Malawi\nOr visit our Contact page for more options!';
-    }
-
-    // Support
-    if (lowerMessage.includes('support') || lowerMessage.includes('help') || lowerMessage.includes('problem') || lowerMessage.includes('issue')) {
-      return 'We provide 24/7 customer support! For immediate assistance, please call us at +265 xxx xxx xxx or email support@ctn.mw. What specific issue are you experiencing?';
-    }
-
-    // Unlimited data
-    if (lowerMessage.includes('unlimited') || lowerMessage.includes('data') || lowerMessage.includes('limit')) {
-      return 'Yes! All our packages come with truly unlimited data - no caps, no throttling. Stream, browse, and download as much as you want!';
+    const lowerMessage = userMessage.toLowerCase().trim();
+    
+    // Check if question is outside CTN's scope
+    if (isOutOfScope(userMessage)) {
+      return 'I apologize, but I\'m specifically designed to help with questions about CTN services. For questions outside CTN\'s scope, please contact customer care at +265 981 187 766 or info@ctnmw.net.';
     }
 
     // Greetings
-    if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-      return 'Hello! How can I assist you with CTN internet services today?';
+    if (lowerMessage.match(/^(hi|hello|hey|good morning|good afternoon|good evening|greetings)/)) {
+      return 'Hello! How can I help you with CTN services today?';
+    }
+
+    // Company information
+    if (lowerMessage.includes('what is ctn') || lowerMessage.includes('who is ctn')) {
+      return CTN_KNOWLEDGE_BASE.company.description;
+    }
+    if (lowerMessage.includes('about ctn') || lowerMessage.includes('tell me about ctn')) {
+      return `${CTN_KNOWLEDGE_BASE.company.description}. We offer unlimited high-speed internet packages from 10Mbps to 300Mbps across Malawi.`;
+    }
+
+    // Specific speed packages - check this first before general speed questions
+    const speedMatch = lowerMessage.match(/(\d+)\s*mbps/);
+    if (speedMatch) {
+      const speed = speedMatch[1] + 'Mbps';
+      const pkg = CTN_KNOWLEDGE_BASE.packages.find(p => p.speed === speed);
+      if (pkg) {
+        if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+          return `The ${pkg.speed} package pricing is available upon request. Please contact us at +265 981 187 766.`;
+        }
+        if (lowerMessage.includes('feature') || lowerMessage.includes('include') || lowerMessage.includes('what')) {
+          return `The ${pkg.speed} package includes: ${pkg.features.slice(0, 3).join(', ')}. Ideal for ${pkg.ideal}.`;
+        }
+        return `Our ${pkg.speed} package is ideal for ${pkg.ideal}.`;
+      }
+    }
+
+    // Packages and pricing
+    if (lowerMessage.includes('package') && (lowerMessage.includes('list') || lowerMessage.includes('all') || lowerMessage.includes('what'))) {
+      const speeds = CTN_KNOWLEDGE_BASE.packages.map(p => p.speed).join(', ');
+      return `We offer packages with speeds: ${speeds}. All include unlimited data, free installation, and router.`;
+    }
+
+    if (lowerMessage.includes('price') || lowerMessage.includes('cost') || (lowerMessage.includes('package') && lowerMessage.includes('price'))) {
+      return 'Pricing is available upon request. Please contact us at +265 981 187 766 for package pricing.';
+    }
+
+    // Speed-related
+    if (lowerMessage.includes('speed') || lowerMessage.includes('fast') || lowerMessage.includes('mbps') || lowerMessage.includes('bandwidth')) {
+      if (lowerMessage.includes('max') || lowerMessage.includes('maximum') || lowerMessage.includes('highest')) {
+        return `Our maximum speed is ${CTN_KNOWLEDGE_BASE.stats.maxSpeed}.`;
+      }
+      const speeds = CTN_KNOWLEDGE_BASE.packages.map(p => p.speed).join(', ');
+      return `We offer speeds: ${speeds}. All with unlimited data.`;
+    }
+
+    // Installation
+    if (lowerMessage.includes('install') || lowerMessage.includes('setup') || lowerMessage.includes('installation')) {
+      if (lowerMessage.includes('how long') || lowerMessage.includes('time') || lowerMessage.includes('when')) {
+        return 'Installation typically takes 24-48 hours from sign-up.';
+      }
+      if (lowerMessage.includes('free') || lowerMessage.includes('cost')) {
+        return 'Installation is free with all packages.';
+      }
+      return 'We provide professional installation service. Installation typically takes 24-48 hours from sign-up.';
+    }
+
+    // Coverage/availability
+    if (lowerMessage.includes('coverage') || lowerMessage.includes('available') || lowerMessage.includes('area') || lowerMessage.includes('location')) {
+      if (lowerMessage.includes('office') || lowerMessage.includes('where')) {
+        const officeList = CTN_KNOWLEDGE_BASE.contact.offices.map(o => `${o.city}: ${o.address}`).join(', ');
+        return `Our offices: ${officeList}`;
+      }
+      return 'CTN provides internet services across Malawi, with primary coverage in urban areas. Check coverage using our coverage map on the Packages page.';
+    }
+
+    // Unlimited data
+    if (lowerMessage.includes('unlimited') || (lowerMessage.includes('data') && lowerMessage.includes('limit')) || lowerMessage.includes('cap')) {
+      return 'Yes, all packages come with truly unlimited data - no caps, no throttling.';
+    }
+
+    // Router
+    if (lowerMessage.includes('router') || lowerMessage.includes('equipment') || lowerMessage.includes('device')) {
+      if (lowerMessage.includes('include') || lowerMessage.includes('free')) {
+        return 'Yes, all packages include a router as part of the installation.';
+      }
+      return 'All packages include a router as part of the installation.';
+    }
+
+    // Upgrade/downgrade
+    if (lowerMessage.includes('upgrade') || lowerMessage.includes('downgrade') || lowerMessage.includes('change package') || lowerMessage.includes('switch')) {
+      return 'Yes, you can upgrade or downgrade your package at any time. Contact our support team at +265 981 187 766.';
+    }
+
+    // Business solutions
+    if (lowerMessage.includes('business') || lowerMessage.includes('company') || lowerMessage.includes('enterprise') || lowerMessage.includes('office')) {
+      if (lowerMessage.includes('solution') || lowerMessage.includes('offer') || lowerMessage.includes('what')) {
+        const solutionTypes = CTN_KNOWLEDGE_BASE.business.solutions.map(s => s.type).join(', ');
+        return `We offer business solutions: ${solutionTypes}. Contact us at +265 981 187 766 to discuss your needs.`;
+      }
+      return 'We offer specialized business solutions with dedicated support. Contact us at +265 981 187 766.';
+    }
+
+    // Conference/Event
+    if (lowerMessage.includes('conference') || lowerMessage.includes('event') || lowerMessage.includes('rental') || lowerMessage.includes('meeting')) {
+      if (lowerMessage.includes('price') || lowerMessage.includes('cost')) {
+        return 'Event rentals start at MK55,000/day. Contact us at +265 981 187 766 for details.';
+      }
+      const eventSolution = CTN_KNOWLEDGE_BASE.business.solutions.find(s => s.type.includes('Conference') || s.type.includes('Event'));
+      if (eventSolution) {
+        return `${eventSolution.type}: ${eventSolution.description}. Contact us at +265 981 187 766.`;
+      }
+    }
+
+    // Contact information - be specific based on what's asked
+    if (lowerMessage.includes('phone') || lowerMessage.includes('call') || lowerMessage.includes('number')) {
+      return `Phone: ${CTN_KNOWLEDGE_BASE.contact.phone}`;
+    }
+
+    if (lowerMessage.includes('email') || lowerMessage.includes('mail')) {
+      return `Email: ${CTN_KNOWLEDGE_BASE.contact.email}`;
+    }
+
+    if (lowerMessage.includes('whatsapp') || lowerMessage.includes('whats app')) {
+      return `WhatsApp: ${CTN_KNOWLEDGE_BASE.contact.whatsapp}`;
+    }
+
+    if (lowerMessage.includes('address') || (lowerMessage.includes('location') && lowerMessage.includes('office')) || (lowerMessage.includes('where') && lowerMessage.includes('office'))) {
+      const officeList = CTN_KNOWLEDGE_BASE.contact.offices.map(o => `${o.city}: ${o.address}`).join(', ');
+      return `Our offices: ${officeList}`;
+    }
+
+    if (lowerMessage.includes('contact') || lowerMessage.includes('reach') || lowerMessage.includes('get in touch')) {
+      return `Phone: ${CTN_KNOWLEDGE_BASE.contact.phone}, Email: ${CTN_KNOWLEDGE_BASE.contact.email}, WhatsApp: ${CTN_KNOWLEDGE_BASE.contact.whatsapp}`;
+    }
+
+    // Support
+    if (lowerMessage.includes('support') || lowerMessage.includes('help') || lowerMessage.includes('problem') || lowerMessage.includes('issue') || lowerMessage.includes('trouble')) {
+      if (lowerMessage.includes('phone') || lowerMessage.includes('call') || lowerMessage.includes('number')) {
+        return `For support, call ${CTN_KNOWLEDGE_BASE.contact.phone} or WhatsApp ${CTN_KNOWLEDGE_BASE.contact.whatsapp}.`;
+      }
+      return `24/7 support available. Contact us at ${CTN_KNOWLEDGE_BASE.contact.phone} or ${CTN_KNOWLEDGE_BASE.contact.email}.`;
+    }
+
+    // Partner program
+    if (lowerMessage.includes('partner') || lowerMessage.includes('partnership') || lowerMessage.includes('certified')) {
+      if (lowerMessage.includes('level') || lowerMessage.includes('type')) {
+        const levels = CTN_KNOWLEDGE_BASE.partners.levels.map(l => l.name).join(' and ');
+        return `We have ${levels} levels. ${CTN_KNOWLEDGE_BASE.partners.location}`;
+      }
+      return `CTN Partner Program: ${CTN_KNOWLEDGE_BASE.partners.description}. Contact us at +265 981 187 766.`;
+    }
+
+    // Uptime/reliability
+    if (lowerMessage.includes('uptime') || lowerMessage.includes('reliable') || lowerMessage.includes('reliability') || lowerMessage.includes('downtime')) {
+      return `We guarantee ${CTN_KNOWLEDGE_BASE.stats.uptime} uptime with redundant systems.`;
+    }
+
+    // FAQ answers
+    for (const faq of CTN_KNOWLEDGE_BASE.faqs) {
+      const faqKeywords = faq.q.toLowerCase().split(' ');
+      if (faqKeywords.some(keyword => lowerMessage.includes(keyword))) {
+        return faq.a;
+      }
     }
 
     // Thank you
-    if (lowerMessage.includes('thank') || lowerMessage.includes('thanks')) {
-      return 'You\'re welcome! Is there anything else I can help you with?';
+    if (lowerMessage.includes('thank') || lowerMessage.includes('thanks') || lowerMessage.includes('appreciate')) {
+      return 'You\'re welcome!';
     }
 
     // Default response
-    return 'I\'m here to help! You can ask me about our packages, pricing, speeds, installation, coverage areas, or business solutions. What would you like to know?';
+    return 'I can help with CTN services. What would you like to know?';
   };
 
   const handleSend = () => {

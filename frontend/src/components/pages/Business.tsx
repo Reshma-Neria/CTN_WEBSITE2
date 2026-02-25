@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Building2, Users, Headphones, TrendingUp, Shield, Clock, Check } from 'lucide-react';
+import { Building2, Users, Phone, ArrowUpRight, Shield, Clock, Check } from 'lucide-react';
 import { Link } from 'react-router';
 
 export function Business() {
@@ -10,7 +10,7 @@ export function Business() {
       description: 'Custom packages tailored to your business size and requirements.',
     },
     {
-      icon: Headphones,
+      icon: Phone,
       title: 'Dedicated Support',
       description: 'Priority 24/7 support with dedicated account manager.',
     },
@@ -20,7 +20,7 @@ export function Business() {
       description: '99.9% uptime guarantee with service level agreements.',
     },
     {
-      icon: TrendingUp,
+      icon: ArrowUpRight,
       title: 'Scalable Plans',
       description: 'Easily upgrade as your business grows.',
     },
@@ -101,7 +101,7 @@ export function Business() {
   ];
 
   return (
-    <div className="min-h-screen py-20 px-4">
+    <div className="min-h-[60vh] md:min-h-screen py-20 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <motion.div

@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
-import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Clock, Send, FileText } from 'lucide-react';
 import { useState, type FormEvent, type ChangeEvent } from 'react';
+import { Link } from 'react-router';
 // Import contact image
 import contactImage from '../../assets/contact.avif';
 
@@ -59,7 +60,7 @@ export function Contact() {
   ];
 
   return (
-    <div className="min-h-screen py-20 px-4">
+    <div className="min-h-[60vh] md:min-h-screen py-20 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <motion.div
@@ -116,7 +117,19 @@ export function Contact() {
                     <Send className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl md:text-2xl font-semibold text-white mb-2">Message Sent!</h3>
-                  <p className="text-base md:text-lg text-white">We'll get back to you as soon as possible.</p>
+                  <p className="text-base md:text-lg text-white mb-6">We'll get back to you as soon as possible.</p>
+                  <div className="mt-6 p-4 bg-white/10 rounded-xl border border-white/20">
+                    <p className="text-white mb-4 text-base md:text-lg">
+                      Ready to subscribe? Fill out our application form to get started:
+                    </p>
+                    <Link
+                      to="/subscribe"
+                      className="inline-flex items-center gap-2 bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] text-white py-3 px-6 rounded-xl font-semibold hover:scale-105 transition-transform"
+                    >
+                      <FileText className="w-5 h-5" />
+                      <span>Go to Subscription Form</span>
+                    </Link>
+                  </div>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -196,6 +209,19 @@ export function Contact() {
                     <Send className="w-5 h-5" />
                     <span>Send Message</span>
                   </button>
+                  
+                  <div className="mt-4 pt-4 border-t border-white/10">
+                    <p className="text-white text-center mb-3 text-base md:text-lg">
+                      Ready to subscribe? Fill out our application form:
+                    </p>
+                    <Link
+                      to="/subscribe"
+                      className="w-full bg-gradient-to-br from-[#002147] to-[#001A36] text-white py-3 rounded-xl font-semibold hover:scale-105 transition-transform flex items-center justify-center space-x-2"
+                    >
+                      <FileText className="w-5 h-5" />
+                      <span>Go to Subscription Form</span>
+                    </Link>
+                  </div>
                 </form>
               )}
             </div>

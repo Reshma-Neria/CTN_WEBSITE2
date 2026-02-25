@@ -75,7 +75,7 @@ export function Partners() {
   ];
 
   return (
-    <div className="min-h-screen py-20 px-4">
+    <div className="min-h-[60vh] md:min-h-screen py-20 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <motion.div

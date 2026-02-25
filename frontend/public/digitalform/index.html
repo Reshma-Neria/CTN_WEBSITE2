@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CTN Application Form</title>
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f7f7f7;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .form-container {
+        max-width: 900px;
+        margin: auto;
+        background: #ffffff;
+        padding: 25px;
+        border: 1px solid #ccc;
+    }
+
+    .logo-container {
+        text-align: center;
+        margin: -25px -25px 20px -25px;
+        padding: 20px;
+        background: #fff;
+    }
+
+    .logo-container img {
+        max-height: 80px;
+        width: auto;
+    }
+
+    h1 {
+        background: #002147;
+        color: #fff;
+        padding: 10px;
+        font-size: 20px;
+        margin: 0 -25px 20px -25px;
+    }
+
+    fieldset {
+        border: 1px solid #bbb;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    legend {
+        font-weight: bold;
+        padding: 0 10px;
+    }
+
+    .row {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+
+    .field {
+        flex: 1;
+        min-width: 180px;
+    }
+
+    label {
+        font-size: 13px;
+        display: block;
+        margin-bottom: 4px;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+        width: 100%;
+        padding: 6px;
+        border: 1px solid #aaa;
+        font-size: 13px;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 5px;
+    }
+
+    .equipment-notice {
+        margin: 8px 0 0 18px;
+        padding: 0;
+        font-size: 13px;
+    }
+
+    .equipment-notice li {
+        margin: 6px 0;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+    }
+
+    th, td {
+        border: 1px solid #999;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background: #eee;
+    }
+
+    .footer-note {
+        font-size: 11px;
+        margin-top: 15px;
+    }
+
+    .logos {
+        margin-top: 25px;
+        text-align: center;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .terms-link {
+        margin: 15px 0;
+        font-size: 13px;
+    }
+
+    .terms-link a {
+        color: #002147;
+        text-decoration: underline;
+    }
+
+    .signature-section {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #bbb;
+    }
+
+    .signature-container {
+        margin-top: 10px;
+        border: 1px solid #aaa;
+        padding: 10px;
+        background: #fafafa;
+    }
+
+    #signatureCanvas {
+        border: 1px solid #ccc;
+        background: white;
+        cursor: crosshair;
+        display: block;
+        width: 100%;
+        max-width: 600px;
+        height: 150px;
+    }
+
+    .signature-controls {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-clear {
+        padding: 8px 15px;
+        background: #d32f2f;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+    .btn-clear:hover {
+        background: #b71c1c;
+    }
+
+    .signature-upload {
+        margin-top: 10px;
+    }
+
+    .signature-upload input[type="file"] {
+        margin-top: 5px;
+    }
+
+    .signature-preview {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: white;
+        display: none;
+    }
+
+    .signature-preview img {
+        max-width: 100%;
+        max-height: 150px;
+    }
+
+    .agreement-checkbox {
+        margin: 15px 0;
+        font-size: 13px;
+    }
+
+    .agreement-checkbox input[type="checkbox"] {
+        margin-right: 8px;
+    }
+
+    .submit-btn {
+        margin-top: 20px;
+        padding: 12px 30px;
+        background: #002147;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .submit-btn:hover {
+        background: #001A36;
+    }
+
+    .print-btn {
+        margin-top: 20px;
+        padding: 12px 30px;
+        background: #002147;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .print-btn:hover {
+        background: #001A36;
+    }
+
+    /* Print Styles */
+    @media print {
+        body {
+            background: white;
+            padding: 0;
+            margin: 0;
+        }
+
+        .form-container {
+            max-width: 100%;
+            padding: 15px;
+            border: none;
+            box-shadow: none;
+        }
+
+        .logo-container {
+            margin: 0 0 15px 0;
+            padding: 10px;
+        }
+
+        h1 {
+            margin: 0 0 15px 0;
+        }
+
+        fieldset {
+            page-break-inside: avoid;
+            margin-bottom: 15px;
+            border: 1px solid #000;
+        }
+
+        .signature-section {
+            page-break-inside: avoid;
+        }
+
+        #signatureCanvas {
+            border: 1px solid #000;
+            max-width: 100%;
+            display: block !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .signature-preview {
+            display: block !important;
+            page-break-inside: avoid;
+        }
+
+        .signature-preview img {
+            max-width: 400px;
+            border: 1px solid #000;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .signature-container {
+            page-break-inside: avoid;
+        }
+
+        .btn-clear,
+        .print-btn,
+        .submit-btn,
+        .signature-controls,
+        .signature-upload,
+        .terms-link,
+        .logos {
+            display: none !important;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="checkbox"],
+        input[type="radio"] {
+            border: 1px solid #000;
+            background: white;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        input[type="checkbox"]:checked::before {
+            content: "✓";
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <form id="applicationForm" onsubmit="handleSubmit(event)">
+    <div class="logo-container">
+        <img src="ctn%20logo.avif" alt="CTN Logo">
+    </div>
+    <h1>Application Form</h1>
+
+    <fieldset>
+        <div class="row">
+            <div class="field">
+                <label>Reference (CTN)</label>
+                <input type="text" name="referenceCtn">
+            </div>
+        </div>
+
+        <div class="row">
+            <label>Payment method:</label>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name="paymentMethod" value="Cheque"> Cheque</label>
+                <label><input type="checkbox" name="paymentMethod" value="Cash"> Cash</label>
+            </div>
+            <div class="field">
+                <label>Date</label>
+                <input type="date" name="applicationDate">
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Personal Details</legend>
+
+        <div class="row">
+            <div class="field">
+                <label>Title</label>
+                <input type="text" name="title">
+            </div>
+            <div class="field">
+                <label>First name</label>
+                <input type="text" name="firstName">
+            </div>
+            <div class="field">
+                <label>Surname</label>
+                <input type="text" name="surname">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>ID No.</label>
+                <input type="text" name="idNo">
+            </div>
+            <div class="field">
+                <label>Passport number</label>
+                <input type="text" name="passportNumber">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>Contact number</label>
+                <input type="text" name="contactNumber">
+            </div>
+            <div class="field">
+                <label>Email address</label>
+                <input type="text" name="emailAddress">
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Package Selection</legend>
+
+        <table>
+            <tr>
+                <th>Package</th>
+                <th>Speed Mbps</th>
+                <th>Monthly Data Allowance</th>
+                <th>Monthly Fee (MWK)</th>
+                <th>Select</th>
+            </tr>
+            <tr>
+                <td>Tiyeni Standard - up to 8 devices, 2 streaming</td>
+                <td>10 </td>
+                <td>Unlimited</td>
+                <td>49,500</td>
+                <td><input type="radio" name="package" value="Tiyeni Standard"></td>
+            </tr>
+            <tr>
+                <td>Tiyeni Premium - up to 12 devices, 3 streaming</td>
+                <td>20</td>
+                <td>Unlimited</td>
+                <td>79,500</td>
+                <td><input type="radio" name="package" value="Tiyeni Premium"></td>
+            </tr>
+            <tr>
+                <td>Tiyeni Executive - up to 14 devices, 4 streaming</td>
+                <td>40</td>
+                <td>Unlimited</td>
+                <td>109,500</td>
+                <td><input type="radio" name="package" value="Tiyeni Executive"></td>
+            </tr>
+        </table>
+    </fieldset>
+    <li>No installation fee for<strong>three months</strong> advanced payment</li>
+            <li>No installation fee and equipment deposit fee for <strong>six months</strong>advance payment</li>
+
+    <fieldset>
+        <legend>Equipment Payment</legend>
+
+        <ul class="equipment-notice">
+            <li>Standard Installation: MWK 50,000</li>
+            <li>Refundable Deposit for Equipment: MWK 50,000</li>
+            
+        </ul>
+    </fieldset>
+        </ul>
+    </fieldset>
+
+    <div class="footer-note">
+        All of the above prices include VAT and are subject to change.  
+        This application is subject to approval and acceptance of the Terms & Conditions.
+    </div>
+
+    <div class="terms-link">
+        <strong>Please read and accept our <a href="terms-and-conditions.html" target="_blank">Terms and Conditions</a> before signing.</strong>
+    </div>
+
+    <fieldset>
+        <legend>Signature Section</legend>
+        
+        <div class="agreement-checkbox">
+            <label>
+                <input type="checkbox" id="agreeTerms" required>
+                I have read and agree to the <a href="terms-and-conditions.html" target="_blank">Terms and Conditions</a>
+            </label>
+        </div>
+
+        <div class="signature-section">
+            <label><strong>Digital Signature:</strong></label>
+            <p style="font-size: 12px; color: #666; margin: 5px 0;">Please sign below using your mouse or touchpad, or upload a signature image</p>
+            
+            <div class="signature-container">
+                <canvas id="signatureCanvas"></canvas>
+            </div>
+            
+            <div class="signature-controls">
+                <button type="button" class="btn-clear" onclick="clearSignature()">Clear Signature</button>
+            </div>
+
+            <div class="signature-upload">
+                <label><strong>Or upload signature image:</strong></label>
+                <input type="file" id="signatureUpload" accept="image/*" onchange="handleSignatureUpload(event)">
+            </div>
+
+            <div class="signature-preview" id="signaturePreview">
+                <p><strong>Signature Preview:</strong></p>
+                <img id="signatureImage" src="" alt="Signature">
+            </div>
+        </div>
+    </fieldset>
+
+    <button type="button" class="print-btn" onclick="printForm()">Print / Save as PDF</button>
+    <button type="button" class="submit-btn" onclick="handleSubmit(event)" style="display: none;">Submit Application</button>
+
+    <div class="logos">
+        Powered by Mikrotik · Ubiquiti · NetGate Firewall · Sophos
+    </div>
+
+    </form>
+</div>
+
+<script>
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let signatureDataURL = null;
+
+    // Set canvas size
+    function resizeCanvas() {
+        const container = canvas.parentElement;
+        const containerWidth = container.clientWidth - 20;
+        canvas.width = containerWidth;
+        canvas.height = 150;
+        
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Mouse events
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mouseout', stopDrawing);
+
+    // Touch events
+    canvas.addEventListener('touchstart', handleTouch);
+    canvas.addEventListener('touchmove', handleTouch);
+    canvas.addEventListener('touchend', stopDrawing);
+
+    function startDrawing(e) {
+        isDrawing = true;
+        const rect = canvas.getBoundingClientRect();
+        lastX = e.clientX - rect.left;
+        lastY = e.clientY - rect.top;
+    }
+
+    function draw(e) {
+        if (!isDrawing) return;
+        
+        const rect = canvas.getBoundingClientRect();
+        const currentX = e.clientX - rect.left;
+        const currentY = e.clientY - rect.top;
+
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(currentX, currentY);
+        ctx.stroke();
+
+        lastX = currentX;
+        lastY = currentY;
+    }
+
+    function stopDrawing() {
+        if (isDrawing) {
+            isDrawing = false;
+            updateSignaturePreview();
+        }
+    }
+
+    function handleTouch(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                         e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+            clientX: touch.clientX,
+            clientY: touch.clientY
+        });
+        canvas.dispatchEvent(mouseEvent);
+    }
+
+    function clearSignature() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        document.getElementById('signaturePreview').style.display = 'none';
+        document.getElementById('signatureImage').src = '';
+        signatureDataURL = null;
+        document.getElementById('signatureUpload').value = '';
+    }
+
+    function updateSignaturePreview() {
+        if (!isCanvasEmpty()) {
+            signatureDataURL = canvas.toDataURL('image/png');
+            const preview = document.getElementById('signaturePreview');
+            const img = document.getElementById('signatureImage');
+            img.src = signatureDataURL;
+            preview.style.display = 'block';
+        }
+    }
+
+    function isCanvasEmpty() {
+        const blank = document.createElement('canvas');
+        blank.width = canvas.width;
+        blank.height = canvas.height;
+        return canvas.toDataURL() === blank.toDataURL();
+    }
+
+    function handleSignatureUpload(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // Clear canvas and draw uploaded image
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    signatureDataURL = canvas.toDataURL('image/png');
+                    updateSignaturePreview();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function printForm() {
+        // Validate form before printing
+        if (!document.getElementById('agreeTerms').checked) {
+            alert('Please accept the Terms and Conditions before printing.');
+            return;
+        }
+
+        if (isCanvasEmpty() && !signatureDataURL) {
+            alert('Please provide a signature before printing.');
+            return;
+        }
+
+        // Ensure signature is captured
+        if (!signatureDataURL) {
+            signatureDataURL = canvas.toDataURL('image/png');
+        }
+
+        // Make sure signature preview is visible for printing
+        if (signatureDataURL) {
+            const preview = document.getElementById('signaturePreview');
+            const img = document.getElementById('signatureImage');
+            if (img && !img.src) {
+                img.src = signatureDataURL;
+            }
+            preview.style.display = 'block';
+        }
+
+        // Convert checkboxes to visible text for printing
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            if (cb.checked) {
+                const label = document.querySelector(`label[for="${cb.id}"]`) || cb.parentElement;
+                if (label && !label.classList.contains('checkbox-printed')) {
+                    label.classList.add('checkbox-printed');
+                    const printedMark = document.createElement('span');
+                    printedMark.textContent = ' ✓';
+                    printedMark.style.fontWeight = 'bold';
+                    label.appendChild(printedMark);
+                }
+            }
+        });
+
+        // Show selected package in the table
+        const packageRadios = document.querySelectorAll('input[name="package"]');
+        packageRadios.forEach(radio => {
+            if (radio.checked) {
+                const row = radio.closest('tr');
+                if (row) {
+                    row.style.backgroundColor = '#f0f0f0';
+                    const selectCell = row.querySelector('td:last-child');
+                    if (selectCell) {
+                        selectCell.innerHTML = '<strong>SELECTED ✓</strong>';
+                    }
+                }
+            }
+        });
+
+        // Wait a moment for DOM updates, then print
+        setTimeout(() => {
+            window.print();
+            
+            // Clean up after printing (optional)
+            setTimeout(() => {
+                checkboxes.forEach(cb => {
+                    const label = document.querySelector(`label[for="${cb.id}"]`) || cb.parentElement;
+                    if (label) {
+                        label.classList.remove('checkbox-printed');
+                        const mark = label.querySelector('span');
+                        if (mark && mark.textContent.includes('✓')) {
+                            mark.remove();
+                        }
+                    }
+                });
+            }, 1000);
+        }, 100);
+    }
+
+    function handleSubmit(event) {
+        // This function is kept for compatibility but redirects to print
+        event.preventDefault();
+        printForm();
+        return false;
+    }
+</script>
+
+</body>
+</html>

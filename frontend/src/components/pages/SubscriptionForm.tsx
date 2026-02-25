@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 export function SubscriptionForm() {
   return (
-    <div className="min-h-screen py-20 px-4 bg-[#f7f7f7]">
+    <div className="min-h-[60vh] md:min-h-screen py-20 px-4 bg-[#f7f7f7]">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div

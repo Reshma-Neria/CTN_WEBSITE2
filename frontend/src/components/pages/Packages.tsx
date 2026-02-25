@@ -128,7 +128,7 @@ export function Packages() {
   ];
 
   return (
-    <div className="min-h-screen py-20 px-4">
+    <div className="min-h-[60vh] md:min-h-screen py-20 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <motion.div
@@ -197,6 +197,7 @@ export function Packages() {
                 {/* CTA Button */}
                 <button
                   onClick={() => {
+                    // Tiyeni packages only: run coverage modal
                     setSelectedPackage(pkg.name);
                     setIsModalOpen(true);
                   }}
@@ -297,8 +298,8 @@ export function Packages() {
                   {/* CTA Button */}
                   <button
                     onClick={() => {
-                      setSelectedPackage(pkg.name);
-                      setIsModalOpen(true);
+                      // VPS packages skip coverage and go straight to contact
+                      window.location.href = `/contact?package=${encodeURIComponent(pkg.name)}`;
                     }}
                     className={`block w-full text-center py-3 rounded-xl font-semibold transition-transform hover:scale-105 ${
                       pkg.popular
