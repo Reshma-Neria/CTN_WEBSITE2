@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send } from 'lucide-react';
+import { X, Send } from 'lucide-react';
 import { motion } from 'motion/react';
+import type { ReactNode } from 'react';
 
 interface Message {
   id: string;
@@ -146,6 +147,9 @@ const OUT_OF_SCOPE_KEYWORDS = [
   'other company', 'competitor', 'rival', 'alternative to ctn',
 ];
 
+const CUSTOMER_CARE_CONTACT =
+  'Please contact our customer care: Phone +265 981 187 766, Email info@ctnmw.net, WhatsApp +265 981 187 766, Website www.ctnmw.net.';
+
 // Check if question is outside CTN's scope
 function isOutOfScope(message: string): boolean {
   const lowerMessage = message.toLowerCase();
@@ -208,12 +212,12 @@ export function Chatbot() {
     
     // Check if question is outside CTN's scope
     if (isOutOfScope(userMessage)) {
-      return 'I apologize, but I\'m specifically designed to help with questions about CTN services. For questions outside CTN\'s scope, please contact customer care at +265 981 187 766 or info@ctnmw.net.';
+      return `Sorry, i'm unable to answer this. ${CUSTOMER_CARE_CONTACT}`;
     }
 
     // Greetings
     if (lowerMessage.match(/^(hi|hello|hey|good morning|good afternoon|good evening|greetings)/)) {
-      return 'Hello! How can I help you with CTN services today?';
+      return `Hello! Welcome to CTN. I can answer questions based on information on our website. How can I help you today?`;
     }
 
     // Company information
@@ -375,7 +379,7 @@ export function Chatbot() {
     }
 
     // Default response
-    return 'I can help with CTN services. What would you like to know?';
+    return `Sorry, i'm unable to answer this. ${CUSTOMER_CARE_CONTACT}`;
   };
 
   const handleSend = () => {
@@ -410,18 +414,87 @@ export function Chatbot() {
     }
   };
 
+  const renderLinkedMessage = (text: string): ReactNode => {
+    const lines = text.split('\n');
+    const pattern = /((?:https?:\/\/)?(?:www\.)[^\s]+|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}|\+?\d[\d\s]{7,}\d)/g;
+
+    return lines.map((line, lineIndex) => {
+      const parts = line.split(pattern);
+      return (
+        <span key={`line-${lineIndex}`}>
+          {parts.map((part, partIndex) => {
+            if (!part) return null;
+
+            const isEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(part);
+            const isWebsite = /^(?:https?:\/\/)?(?:www\.)[^\s]+$/.test(part);
+            const isPhone = /^\+?\d[\d\s]{7,}\d$/.test(part);
+
+            if (isEmail) {
+              return (
+                <a
+                  key={`part-${lineIndex}-${partIndex}`}
+                  href={`mailto:${part}`}
+                  className="underline hover:text-[#a4d65e]"
+                >
+                  {part}
+                </a>
+              );
+            }
+
+            if (isWebsite) {
+              const href = part.startsWith('http://') || part.startsWith('https://') ? part : `https://${part}`;
+              return (
+                <a
+                  key={`part-${lineIndex}-${partIndex}`}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-[#a4d65e]"
+                >
+                  {part}
+                </a>
+              );
+            }
+
+            if (isPhone) {
+              const tel = part.replace(/\s+/g, '');
+              return (
+                <a
+                  key={`part-${lineIndex}-${partIndex}`}
+                  href={`tel:${tel}`}
+                  className="underline hover:text-[#a4d65e]"
+                >
+                  {part}
+                </a>
+              );
+            }
+
+            return <span key={`part-${lineIndex}-${partIndex}`}>{part}</span>;
+          })}
+          {lineIndex < lines.length - 1 ? <br /> : null}
+        </span>
+      );
+    });
+  };
+
   return (
     <>
       {/* Chat Button */}
       {!isOpen && (
-        <motion.button
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
-        >
-          <MessageCircle className="w-6 h-6 text-white" />
-        </motion.button>
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999] flex items-center gap-2">
+          <span className="hidden sm:inline-block rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-[#1e3a5f] shadow">
+            Chat with us
+          </span>
+          <motion.button
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            onClick={() => setIsOpen(true)}
+            aria-label="Open chatbot"
+            className="w-14 h-14 bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] rounded-full shadow-lg ring-2 ring-white/70 flex items-center justify-center hover:scale-110 transition-transform"
+          >
+            <Send className="w-6 h-6 text-white" />
+          </motion.button>
+        </div>
       )}
 
       {/* Chat Window */}
@@ -429,13 +502,13 @@ export function Chatbot() {
         <motion.div
           initial={{ opacity: 0, y: 20, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          className="fixed bottom-6 right-6 z-50 w-96 h-[500px] bg-[#1e3a5f]/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 flex flex-col"
+          className="fixed z-[9999] left-3 right-3 bottom-3 h-[72vh] sm:left-auto sm:right-6 sm:bottom-6 sm:w-96 sm:h-[500px] bg-[#1e3a5f]/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 flex flex-col"
         >
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b border-white/10">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] rounded-full flex items-center justify-center">
-                <MessageCircle className="w-5 h-5 text-white" />
+                <Send className="w-5 h-5 text-white" />
               </div>
               <div>
                 <h3 className="text-white font-semibold">CTN Support</h3>
@@ -464,7 +537,7 @@ export function Chatbot() {
                       : 'bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] text-white'
                   }`}
                 >
-                  <p className="text-sm whitespace-pre-line">{message.text}</p>
+                  <p className="text-sm">{renderLinkedMessage(message.text)}</p>
                 </div>
               </div>
             ))}

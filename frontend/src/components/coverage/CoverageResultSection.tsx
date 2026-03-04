@@ -50,23 +50,21 @@ export function CoverageResultSection({
           </>
         ) : (
           <>
-            <XCircle className="w-8 h-8 md:w-12 md:h-12 text-red-400 flex-shrink-0" />
+            <XCircle className="w-10 h-10 md:w-14 md:h-14 text-red-400 flex-shrink-0" />
             <div className="flex-1">
-              <h3 className="text-lg md:text-2xl font-bold text-white mb-2">
-                ❌ You are currently outside our coverage area
+              <h3 className="text-xl md:text-3xl font-extrabold text-white mb-3 leading-snug">
+                Sorry you're outside our coverage.
               </h3>
-              <p className="text-white mb-2 text-sm md:text-base">
-                Unfortunately, your location is not within 10km of any of our base stations.
+              <p className="text-white text-base md:text-xl font-semibold">
+                Please contact our customer care for any information.
               </p>
               {nearestStation && (
-                <p className="text-white/80 text-xs md:text-sm">
-                  Nearest base station: <span className="font-semibold">{nearestStation.name}</span>{' '}
+                <p className="text-white/80 text-xs md:text-sm mt-3">
+                  Nearest base station:{' '}
+                  <span className="font-semibold">{nearestStation.name}</span>{' '}
                   ({nearestStation.distance.toFixed(2)} km away)
                 </p>
               )}
-              <p className="text-white/80 text-xs md:text-sm mt-2">
-                Please contact us to discuss expansion plans or alternative solutions.
-              </p>
             </div>
           </>
         )}

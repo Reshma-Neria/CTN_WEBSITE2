@@ -13,17 +13,19 @@ export function useBaseStations(apiService?: IApiService) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
 
-  const fetchBaseStations = async () => {
+  const fetchBaseStations = async (): Promise<BaseStation[]> => {
     setIsLoading(true);
     setError('');
     
     try {
       const stations = await service.fetchBaseStations();
       setBaseStations(stations);
+      return stations;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch base stations.';
       setError(errorMessage);
       setBaseStations([]);
+      return [];
     } finally {
       setIsLoading(false);
     }

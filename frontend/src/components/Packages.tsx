@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Check, Wifi, Zap, Sparkles } from "lucide-react";
+import { Check, Wifi, Zap, Users } from "lucide-react";
 
 export function Packages() {
   const packages = [
@@ -58,7 +58,7 @@ export function Packages() {
     {
       speed: "300Mbps",
       price: "Contact for pricing",
-      icon: Sparkles,
+      icon: Users,
       features: [
         "Unlimited Data",
         "Business & power users",
@@ -110,10 +110,10 @@ export function Packages() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className={`relative rounded-2xl p-6 border-2 hover:shadow-xl transition-all ${
+                className={`relative rounded-2xl p-6 border-2 hover:shadow-xl transition-all bg-white ${
                   pkg.popular
-                    ? "border-[#a4d65e] bg-gradient-to-br from-[#a4d65e]/5 to-white scale-105"
-                    : "border-gray-200 bg-white hover:border-[#a4d65e]"
+                    ? "border-[#a4d65e] scale-105"
+                    : "border-gray-200 hover:border-[#a4d65e]"
                 }`}
               >
                 {pkg.popular && (

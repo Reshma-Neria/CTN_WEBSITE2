@@ -100,8 +100,8 @@ export function Home() {
                 <span className="text-[#a4d65e]">with Unlimited BroadBand</span>
               </h1>
               <p className="text-xl md:text-2xl text-white mb-8 leading-relaxed">
-                CTN, Tiyeni pamodzi!! Experience faster internet with CTN's improved Tiyeni plans and packages. 
-                Unlimited, uncapped, no FUP.
+                CTN, Tiyeni Pamodzi!! Break free from slow internet. Our improved Tiyeni plans are
+                unlimited, unrestricted, and ridiculously fast.
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link

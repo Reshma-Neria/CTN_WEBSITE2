@@ -1,36 +1,12 @@
 import { motion } from 'motion/react';
-import { Mail, Phone, MapPin, Clock, Send, FileText } from 'lucide-react';
-import { useState, type FormEvent, type ChangeEvent } from 'react';
+import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
 import { Link } from 'react-router';
 // Import contact image
 import contactImage from '../../assets/contact.avif';
 
 export function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: '',
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // In a real app, this would submit to a backend
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    }, 3000);
-  };
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const splynxSignupUrl =
+    'https://demo.splynx.com/admin/crm/sign-up?selected_internet=0&selected_voice=0&selected_recurring=0&selected_bundle=0&formTitle=Signup&formButtonText=Register&submitThanks=Thanks%20for%20signing%20up!&required_tariff=1&vat_included=0&partner_id=1&admin_id=0&crm_status=1&location=1&show_form_terms=1&form_terms_template=&required_first_name=1&required_last_name=1&required_email=1&required_phone=1&required_street=1&required_city=1&required_zip=1';
 
   const contactInfo = [
     {
@@ -61,17 +37,17 @@ export function Contact() {
 
   return (
     <div className="min-h-[60vh] md:min-h-screen py-20 px-4">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto text-white">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Get In <span className="text-[#a4d65e]">Touch</span>
           </h1>
-          <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto leading-relaxed">
+          <p className="text-2xl md:text-3xl text-white max-w-3xl mx-auto leading-relaxed">
             Have questions? We're here to help. Reach out to us and we'll respond as soon as possible.
           </p>
         </motion.div>
@@ -89,13 +65,43 @@ export function Contact() {
               <div className="w-12 h-12 bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] rounded-xl flex items-center justify-center mx-auto mb-4">
                 <info.icon className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-lg md:text-xl font-semibold text-white mb-3">{info.title}</h3>
-              {info.details.map((detail, dIndex) => (
-                <p key={dIndex} className="text-white text-base md:text-lg">
-                  {detail}
-                </p>
-              ))}
-              <p className="text-[#a4d65e] text-base md:text-lg mt-2 font-medium">{info.action}</p>
+              <h3 className="text-xl md:text-2xl font-semibold text-white mb-3">{info.title}</h3>
+              {info.details.map((detail, dIndex) => {
+                // Check if it's a phone number
+                const isPhone = /^\+?\d/.test(detail);
+                // Check if it's an email
+                const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(detail);
+                
+                if (isPhone) {
+                  const phoneLink = `tel:${detail.replace(/\s/g, '')}`;
+                  return (
+                    <a
+                      key={dIndex}
+                      href={phoneLink}
+                      className="text-white text-lg md:text-xl hover:text-[#a4d65e] transition-colors block"
+                    >
+                      {detail}
+                    </a>
+                  );
+                } else if (isEmail) {
+                  return (
+                    <a
+                      key={dIndex}
+                      href={`mailto:${detail}`}
+                      className="text-white text-lg md:text-xl hover:text-[#a4d65e] transition-colors block"
+                    >
+                      {detail}
+                    </a>
+                  );
+                } else {
+                  return (
+                    <p key={dIndex} className="text-white text-lg md:text-xl">
+                      {detail}
+                    </p>
+                  );
+                }
+              })}
+              <p className="text-white text-lg md:text-xl mt-2 font-medium">{info.action}</p>
             </motion.div>
           ))}
         </div>
@@ -109,121 +115,54 @@ export function Contact() {
             transition={{ delay: 0.3 }}
           >
             <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Send us a message</h2>
-              
-              {isSubmitted ? (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Send className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-semibold text-white mb-2">Message Sent!</h3>
-                  <p className="text-base md:text-lg text-white mb-6">We'll get back to you as soon as possible.</p>
-                  <div className="mt-6 p-4 bg-white/10 rounded-xl border border-white/20">
-                    <p className="text-white mb-4 text-base md:text-lg">
-                      Ready to subscribe? Fill out our application form to get started:
-                    </p>
-                    <Link
-                      to="/subscribe"
-                      className="inline-flex items-center gap-2 bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] text-white py-3 px-6 rounded-xl font-semibold hover:scale-105 transition-transform"
-                    >
-                      <FileText className="w-5 h-5" />
-                      <span>Go to Subscription Form</span>
-                    </Link>
-                  </div>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-white mb-2 text-base md:text-lg font-medium">Full Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full bg-white/10 text-white placeholder-white/40 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#a4d65e] border border-white/10"
-                    />
-                  </div>
-                  
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-white mb-2 text-base md:text-lg font-medium">Email</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full bg-white/10 text-white placeholder-white/40 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#a4d65e] border border-white/10"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label className="block text-white mb-2 text-base md:text-lg font-medium">Phone</label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="w-full bg-white/10 text-white placeholder-white/40 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#a4d65e] border border-white/10"
-                        placeholder="+265 xxx xxx xxx"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-white mb-2 text-base md:text-lg font-medium">Subject</label>
-                    <select
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="w-full bg-white/10 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#a4d65e] border border-white/10"
-                    >
-                      <option value="" className="bg-[#1e3a5f]">Select a subject</option>
-                      <option value="packages" className="bg-[#1e3a5f]">Package Information</option>
-                      <option value="business" className="bg-[#1e3a5f]">Business Solutions</option>
-                      <option value="support" className="bg-[#1e3a5f]">Technical Support</option>
-                      <option value="installation" className="bg-[#1e3a5f]">Installation</option>
-                      <option value="other" className="bg-[#1e3a5f]">Other</option>
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-white mb-2 text-base md:text-lg font-medium">Message</label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={5}
-                      className="w-full bg-white/10 text-white placeholder-white/40 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#a4d65e] border border-white/10 resize-none"
-                      placeholder="Tell us how we can help you..."
-                    />
-                  </div>
-                  
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] text-white py-3 rounded-xl font-semibold hover:scale-105 transition-transform flex items-center justify-center space-x-2"
-                  >
-                    <Send className="w-5 h-5" />
-                    <span>Send Message</span>
-                  </button>
-                  
-                  <div className="mt-4 pt-4 border-t border-white/10">
-                    <p className="text-white text-center mb-3 text-base md:text-lg">
-                      Ready to subscribe? Fill out our application form:
-                    </p>
-                    <Link
-                      to="/subscribe"
-                      className="w-full bg-gradient-to-br from-[#002147] to-[#001A36] text-white py-3 rounded-xl font-semibold hover:scale-105 transition-transform flex items-center justify-center space-x-2"
-                    >
-                      <FileText className="w-5 h-5" />
-                      <span>Go to Subscription Form</span>
-                    </Link>
-                  </div>
-                </form>
-              )}
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Send us a message</h2>
+
+              <div className="bg-white/10 rounded-xl p-4 border border-white/10">
+                <iframe
+                  data-widget-type="embedded"
+                  width="100%"
+                  src={splynxSignupUrl}
+                  id="splynx-signup-widget-frame"
+                  title="Splynx Signup Form"
+                  frameBorder={0}
+                  loading="eager"
+                  allow="fullscreen"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-[820px] sm:h-[980px] rounded-lg border-0 pointer-events-auto"
+                />
+              </div>
+
+              <div className="mt-3 grid gap-3 md:grid-cols-2">
+                <a
+                  href={splynxSignupUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#a4d65e] px-4 py-3 font-semibold text-white transition-transform hover:scale-105"
+                >
+                  <Send className="h-5 w-5" />
+                  Open Form to Print PDF
+                </a>
+                <a
+                  href="mailto:info@ctn.mw?subject=Completed%20Splynx%20Signup%20Form&body=Hi%20CTN%2C%0A%0AI%20have%20completed%20the%20signup%20form.%20Please%20find%20the%20PDF%20attached.%0A"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#002147] px-4 py-3 font-semibold text-white transition-transform hover:scale-105"
+                >
+                  <Send className="h-5 w-5" />
+                  Send PDF by Email
+                </a>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-white/10">
+                <p className="text-white text-center mb-3 text-lg md:text-xl">
+                  Prefer our website application form?
+                </p>
+                <Link
+                  to="/subscribe"
+                  className="w-full bg-gradient-to-br from-[#002147] to-[#001A36] text-white py-3 rounded-xl font-semibold hover:scale-105 transition-transform flex items-center justify-center space-x-2"
+                >
+                  <Send className="w-5 h-5" />
+                  <span>Go to Subscription Form</span>
+                </Link>
+              </div>
             </div>
           </motion.div>
 
@@ -245,24 +184,28 @@ export function Contact() {
 
             {/* FAQ Box */}
             <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-4">Quick Answers</h3>
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Quick Answers</h3>
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-white font-semibold mb-1">Need immediate help?</h4>
-                  <p className="text-white text-base md:text-lg leading-relaxed">
+                  <h4 className="text-white text-lg md:text-xl font-semibold mb-1">Need immediate help?</h4>
+                  <p className="text-white text-lg md:text-xl leading-relaxed">
                     Try our AI chatbot in the bottom right corner for instant answers to common questions.
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-1">Installation queries?</h4>
-                  <p className="text-white text-base md:text-lg leading-relaxed">
+                  <h4 className="text-white text-lg md:text-xl font-semibold mb-1">Installation queries?</h4>
+                  <p className="text-white text-lg md:text-xl leading-relaxed">
                     Call our installation hotline during business hours for scheduling and technical questions.
                   </p>
                 </div>
                 <div>
-                  <h4 className="text-white font-semibold mb-1">Business inquiries?</h4>
-                  <p className="text-white text-base md:text-lg leading-relaxed">
-                    Email our business team directly at business@ctn.mw for custom enterprise solutions.
+                  <h4 className="text-white text-lg md:text-xl font-semibold mb-1">Business inquiries?</h4>
+                  <p className="text-white text-lg md:text-xl leading-relaxed">
+                    Email our business team directly at{' '}
+                    <a href="mailto:business@ctn.mw" className="underline hover:text-[#a4d65e] transition-colors">
+                      business@ctn.mw
+                    </a>{' '}
+                    for custom enterprise solutions.
                   </p>
                 </div>
               </div>
@@ -277,7 +220,7 @@ export function Contact() {
           transition={{ delay: 0.5 }}
           className="mt-16 bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10"
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center">Visit Our Office</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">Visit Our Office</h2>
           <div className="bg-white/10 rounded-xl h-[400px] overflow-hidden relative w-full">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3839.5!2d33.749222!3d-13.967194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDU4JzAxLjkiUyAzM8KwNDQnNTcuMiJF!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
@@ -292,8 +235,8 @@ export function Contact() {
             />
           </div>
           <div className="mt-4 text-center">
-            <p className="text-white font-semibold text-base md:text-lg">Lilongwe Area 47 Sector 1, Malawi</p>
-            <p className="text-white text-base mt-1">Coordinates: 13°58'01.9"S 33°44'57.2"E</p>
+            <p className="text-white font-semibold text-lg md:text-xl">Lilongwe Area 47 Sector 1, Malawi</p>
+            <p className="text-white text-lg mt-1">Coordinates: 13°58'01.9"S 33°44'57.2"E</p>
           </div>
         </motion.div>
       </div>

@@ -33,7 +33,7 @@ export function CoverageInputSection({
       </h3>
 
       <div className="mb-4">
-        <label className="block text-white text-sm mb-2">Your Coordinates</label>
+        <label className="block text-white text-sm mb-2">Your Location</label>
         <input
           type="text"
           value={clientCoords}
@@ -44,11 +44,11 @@ export function CoverageInputSection({
               onCheckCoverage();
             }
           }}
-          placeholder="e.g., -13.9626, 33.7741 or 14°01'12.3&quot;S 33°48'05.0&quot;E"
+          placeholder="e.g., Shop name, business, landmark, or -13.9626, 33.7741"
           className="w-full bg-white/10 text-white placeholder-white/40 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#a4d65e] border border-white/10 text-sm md:text-base"
         />
         <p className="text-white/50 text-xs mt-2">
-          Supports decimal (-13.9626, 33.7741) or DMS (14°01'12.3"S 33°48'05.0"E) format
+          Enter any location: shop names, businesses, landmarks, addresses, or coordinates. Works like Google Maps search!
         </p>
       </div>
 

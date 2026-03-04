@@ -152,12 +152,12 @@ export function PackagesPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   onClick={() => setSelectedPackage(pkg.id)}
-                  className={`relative rounded-3xl p-6 cursor-pointer transition-all ${
+                  className={`relative rounded-3xl p-6 cursor-pointer transition-all bg-white ${
                     pkg.popular
-                      ? "border-2 border-[#a4d65e] bg-white scale-105 shadow-2xl"
+                      ? "border-2 border-[#a4d65e] scale-105 shadow-2xl"
                       : isSelected
-                      ? "border-2 border-[#a4d65e] bg-white shadow-xl"
-                      : "border border-gray-200 bg-white hover:border-[#a4d65e] hover:shadow-xl"
+                      ? "border-2 border-[#a4d65e] shadow-xl"
+                      : "border border-gray-200 hover:border-[#a4d65e] hover:shadow-xl"
                   }`}
                 >
                   {pkg.popular && (

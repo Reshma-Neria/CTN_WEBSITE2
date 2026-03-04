@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { NetworkBackground } from "../components/NetworkBackground";
 
 export function HomePage() {
+
   const stats = [
     { icon: Zap, value: "300Mbps", label: "Max Speed", color: "from-yellow-400 to-orange-500" },
     { icon: Wifi, value: "Unlimited", label: "Data", color: "from-[#a4d65e] to-[#8bc34a]" },
@@ -76,8 +77,8 @@ export function HomePage() {
                 transition={{ delay: 0.4 }}
                 className="text-white/80 text-xl mb-8 max-w-xl"
               >
-                Experience lightning-fast speeds up to 300Mbps with truly unlimited data.
-                No caps. No throttling. Just pure, uninterrupted connectivity.
+                CTN, Tiyeni Pamodzi!! Break free from slow internet. Our improved Tiyeni plans are
+                unlimited, unrestricted, and ridiculously fast.
               </motion.p>
 
               <motion.div

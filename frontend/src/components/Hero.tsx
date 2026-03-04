@@ -85,8 +85,8 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-white/80 text-xl max-w-3xl mx-auto mb-10"
         >
-          CTN, Tiyeni pamodzi!! Experience faster internet with CTN's improved Tiyeni plans and packages.
-          Choose from our unlimited, uncapped broadband plans with no FUP.
+          CTN, Tiyeni Pamodzi!! Break free from slow internet. Our improved Tiyeni plans are
+          unlimited, unrestricted, and ridiculously fast.
         </motion.p>
 
         <motion.div

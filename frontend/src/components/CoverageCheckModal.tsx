@@ -14,6 +14,7 @@ import { useBaseStations } from '../hooks/useBaseStations';
 import { useGeolocation } from '../hooks/useGeolocation';
 import { useMapControl } from '../hooks/useMapControl';
 import { CoverageService } from '../services/coverageService';
+import { GeocodingService } from '../services/geocodingService';
 import { CoverageMap } from './coverage/CoverageMap';
 import { CoverageInputSection } from './coverage/CoverageInputSection';
 import { CoverageResultSection } from './coverage/CoverageResultSection';
@@ -42,6 +43,7 @@ export function CoverageCheckModal({
     relevantStations,
     error: coverageError,
     isLoading: coverageLoading,
+    geocodedLocationName,
     checkCoverage,
     parseAndCheckCoverage,
     reset: resetCoverage,
@@ -163,10 +165,19 @@ export function CoverageCheckModal({
     try {
       const result = await parseAndCheckCoverage(clientCoords, stationsToUse);
       console.log('parseAndCheckCoverage result:', result);
-      if (result === null) {
+      
+      // Update input field with coordinates if geocoding was successful
+      // This helps users see what location was found on the map
+      if (result && result.validCoords) {
+        const wasLocationName = !GeocodingService.isCoordinateInput(clientCoords);
+        if (wasLocationName && geocodedLocationName) {
+          // Update input to show coordinates that were found
+          setClientCoords(`${result.validCoords.lat}, ${result.validCoords.lng}`);
+        }
+      } else if (result === null) {
         // parseAndCheckCoverage returned null, which means there was a parsing error
         // Error is already set by the hook
-        console.log('Coverage check failed: invalid coordinates');
+        console.log('Coverage check failed: invalid coordinates or location not found');
       }
     } catch (error) {
       console.error('Error checking coverage:', error);

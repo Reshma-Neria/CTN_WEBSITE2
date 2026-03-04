@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin } from 'lucide-react';
+import ctnLogo from '../assets/ctn-logo.avif';
 
 export function Footer() {
   return (
@@ -9,10 +10,11 @@ export function Footer() {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">C</span>
-              </div>
-              <span className="text-white font-bold text-xl">CTN</span>
+              <img 
+                src={ctnLogo} 
+                alt="CTN Logo" 
+                className="h-10 w-auto"
+              />
             </div>
             <p className="text-white text-base md:text-lg">
               Connecting Malawi with 4G and Broadband Network. CTN, Tiyeni pamodzi!!
@@ -107,11 +109,21 @@ export function Footer() {
               </li>
               <li className="flex items-center space-x-2 text-white text-sm">
                 <Phone className="w-4 h-4 flex-shrink-0 text-[#a4d65e]" />
-                <span>+265 981 187 766</span>
+                <a 
+                  href="tel:+265981187766" 
+                  className="hover:text-[#a4d65e] transition-colors cursor-pointer"
+                >
+                  +265 981 187 766
+                </a>
               </li>
               <li className="flex items-center space-x-2 text-white text-sm">
                 <Mail className="w-4 h-4 flex-shrink-0 text-[#a4d65e]" />
-                <span>info@ctn.mw</span>
+                <a 
+                  href="mailto:info@ctn.mw" 
+                  className="hover:text-[#a4d65e] transition-colors cursor-pointer"
+                >
+                  info@ctn.mw
+                </a>
               </li>
             </ul>
           </div>
