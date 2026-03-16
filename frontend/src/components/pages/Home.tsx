@@ -231,7 +231,7 @@ export function Home() {
                   </p>
                   <div className="pt-4 border-t border-[#a4d65e]/30">
                     <p className="text-2xl md:text-3xl lg:text-4xl font-semibold text-[#a4d65e]">
-                      — {testimonials[currentTestimonial].name}
+                      - {testimonials[currentTestimonial].name}
                     </p>
                     <p className="text-xl md:text-2xl lg:text-3xl text-[#a4d65e]/90">
                       {testimonials[currentTestimonial].title}
@@ -256,7 +256,7 @@ export function Home() {
                     className="w-full h-full object-cover object-center"
                   />
                 </motion.div>
-              </div>
+            </div>
             </div>
 
             {/* Navigation Arrows */}

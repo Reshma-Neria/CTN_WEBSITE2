@@ -49,10 +49,21 @@ export function About() {
   }
 
   const timeline: TimelineItem[] = [
-    { year: '2018', event: 'CTN Founded', description: 'Started with a vision to transform internet access in Malawi' },
-    { year: '2019', event: 'Network Expansion', description: 'Extended coverage to major urban areas across the country' },
-    { year: '2021', event: '10,000 Customers', description: 'Reached milestone of serving 10,000 satisfied customers' },
-    { year: '2024', event: '40Mbps Launch', description: 'Introduced improved Tiyeni plans with unlimited, uncapped data' },
+    {
+      year: 'About',
+      event: 'MACRA Licensed ISP',
+      description: 'Converged Technology Networks is an Internet Service Provider licensed by the Malawi Communications Regulatory Authority (MACRA).',
+    },
+    {
+      year: '2017 - 2019',
+      event: 'Established and Operational',
+      description: 'Established in 2017, the company commenced commercial operations in 2019 and is primarily focused on addressing the unmet demand for residential broadband internet access in Malawi.',
+    },
+    {
+      year: 'Leadership',
+      event: 'Regional Experience',
+      description: 'CTN leadership brings many years of experience from building and managing internet networks in Kenya, Uganda, South Africa, Botswana, and a number of other African countries.',
+    },
   ];
 
   return (
@@ -130,18 +141,17 @@ export function About() {
               <p>
                 Founded in 2018, CTN emerged from a simple yet powerful vision: to make high-speed, 
                 unlimited internet accessible to everyone in Malawi. We recognized that internet 
-                connectivity is not just a luxury—it's a necessity for education, business, and 
+                connectivity is not just a luxury, it's a necessity for education, business, and 
                 staying connected with the world.
               </p>
               <p>
-                Starting with just a handful of customers in Lilongwe Area 47 Sector 1, we've grown to serve thousands 
-                of homes and businesses across the country. Our commitment to providing truly unlimited 
+               Our commitment to providing truly unlimited 
                 data with no hidden caps or throttling has made us the trusted choice for Malawians 
                 who demand reliable internet.
               </p>
               <p>
                 Today, we continue to invest in our network infrastructure, expand our coverage, 
-                and introduce faster speeds—all while maintaining the affordable pricing and 
+                and introduce faster speeds, all while maintaining the affordable pricing and 
                 exceptional customer service that our customers have come to expect.
               </p>
             </div>
@@ -259,7 +269,7 @@ function TeamSection() {
           </p>
           <p>
             Our coordinated approach means faster response times, better problem-solving, and a 
-            consistently exceptional experience for our customers. We're not just a team—we're a 
+            consistently exceptional experience for our customers. We're not just a team, we're a 
             well-oiled machine working together to deliver the best internet service in Malawi.
           </p>
         </motion.div>

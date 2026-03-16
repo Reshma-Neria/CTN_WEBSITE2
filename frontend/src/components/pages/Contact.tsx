@@ -166,49 +166,19 @@ export function Contact() {
             </div>
           </motion.div>
 
-          {/* Image & Additional Info */}
+          {/* Image */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
             className="space-y-8"
           >
-            {/* Image */}
             <div className="rounded-2xl overflow-hidden shadow-2xl">
               <img
                 src={contactImage}
                 alt="Contact CTN"
                 className="w-full h-[300px] object-cover"
               />
-            </div>
-
-            {/* FAQ Box */}
-            <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
-              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Quick Answers</h3>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-white text-lg md:text-xl font-semibold mb-1">Need immediate help?</h4>
-                  <p className="text-white text-lg md:text-xl leading-relaxed">
-                    Try our AI chatbot in the bottom right corner for instant answers to common questions.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-white text-lg md:text-xl font-semibold mb-1">Installation queries?</h4>
-                  <p className="text-white text-lg md:text-xl leading-relaxed">
-                    Call our installation hotline during business hours for scheduling and technical questions.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="text-white text-lg md:text-xl font-semibold mb-1">Business inquiries?</h4>
-                  <p className="text-white text-lg md:text-xl leading-relaxed">
-                    Email our business team directly at{' '}
-                    <a href="mailto:business@ctn.mw" className="underline hover:text-[#a4d65e] transition-colors">
-                      business@ctn.mw
-                    </a>{' '}
-                    for custom enterprise solutions.
-                  </p>
-                </div>
-              </div>
             </div>
           </motion.div>
         </div>
@@ -236,7 +206,7 @@ export function Contact() {
           </div>
           <div className="mt-4 text-center">
             <p className="text-white font-semibold text-lg md:text-xl">Lilongwe Area 47 Sector 1, Malawi</p>
-            <p className="text-white text-lg mt-1">Coordinates: 13°58'01.9"S 33°44'57.2"E</p>
+            <p className="text-white text-lg mt-1">Coordinates: 13deg58'01.9"S 33deg44'57.2"E</p>
           </div>
         </motion.div>
       </div>

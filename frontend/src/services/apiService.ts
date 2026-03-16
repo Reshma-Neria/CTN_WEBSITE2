@@ -15,7 +15,7 @@ export class ApiService implements IApiService {
   private readonly baseUrl: string;
 
   constructor(baseUrl?: string) {
-    this.baseUrl = baseUrl || (import.meta.env.VITE_API_URL as string) || 'http://localhost:4000';
+    this.baseUrl = baseUrl || (import.meta.env.VITE_API_URL as string) || 'http://localhost:5000';
   }
 
   /**

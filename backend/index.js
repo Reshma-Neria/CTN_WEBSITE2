@@ -4,7 +4,7 @@ require('dotenv').config();
 const dbMySQL = require('./db-mysql');
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
@@ -21,6 +21,28 @@ function haversineKm(lat1, lon1, lat2, lon2) {
     Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
+}
+
+function parseCoordinates(payload = {}) {
+  const lat = Number(payload.lat);
+  const lng = Number(payload.lng);
+
+  if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+    return null;
+  }
+
+  return { lat, lng };
+}
+
+function parseStationPayload(payload = {}) {
+  const name = typeof payload.name === 'string' ? payload.name.trim() : '';
+  const coordinates = parseCoordinates(payload);
+
+  if (!name || !coordinates) {
+    return null;
+  }
+
+  return { name, ...coordinates };
 }
 
 // Initialize DB (MySQL)
@@ -44,12 +66,12 @@ app.get('/api/base-stations', async (req, res) => {
 
 // POST /api/base-stations - add new station
 app.post('/api/base-stations', async (req, res) => {
-  const { name, lat, lng } = req.body || {};
-  if (!name || typeof lat !== 'number' || typeof lng !== 'number') {
+  const stationPayload = parseStationPayload(req.body);
+  if (!stationPayload) {
     return res.status(400).json({ error: 'Invalid payload. Require name:string, lat:number, lng:number' });
   }
   try {
-    const station = await dbMySQL.addStation({ name, lat, lng });
+    const station = await dbMySQL.addStation(stationPayload);
     res.status(201).json(station);
   } catch (err) {
     console.error('Failed to add station', err);
@@ -70,12 +92,15 @@ app.get('/api/base-stations/:id', async (req, res) => {
 
 // PUT /api/base-stations/:id
 app.put('/api/base-stations/:id', async (req, res) => {
-  const { name, lat, lng } = req.body || {};
-  if (!name || typeof lat !== 'number' || typeof lng !== 'number') {
+  const stationPayload = parseStationPayload(req.body);
+  if (!stationPayload) {
     return res.status(400).json({ error: 'Invalid payload. Require name:string, lat:number, lng:number' });
   }
   try {
-    const updated = await dbMySQL.updateStation(req.params.id, { name, lat, lng });
+    const updated = await dbMySQL.updateStation(req.params.id, stationPayload);
+    if (!updated) {
+      return res.status(404).json({ error: 'Not found' });
+    }
     res.json(updated);
   } catch (err) {
     res.status(500).json({ error: 'Failed to update station' });
@@ -86,6 +111,9 @@ app.put('/api/base-stations/:id', async (req, res) => {
 app.delete('/api/base-stations/:id', async (req, res) => {
   try {
     const result = await dbMySQL.deleteStation(req.params.id);
+    if (result.deleted === 0) {
+      return res.status(404).json({ error: 'Not found' });
+    }
     res.json(result);
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete station' });
@@ -94,10 +122,12 @@ app.delete('/api/base-stations/:id', async (req, res) => {
 
 // POST /api/coverage - body { lat, lng }
 app.post('/api/coverage', async (req, res) => {
-  const { lat, lng } = req.body || {};
-  if (typeof lat !== 'number' || typeof lng !== 'number') {
+  const coordinates = parseCoordinates(req.body);
+  if (!coordinates) {
     return res.status(400).json({ error: 'Missing or invalid lat/lng in body' });
   }
+
+  const { lat, lng } = coordinates;
 
   try {
     const sites = await dbMySQL.getAllStations();

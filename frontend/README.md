@@ -5,7 +5,7 @@ Setup
 1. Copy `.env.example` to `.env` and set values:
 
 ```
-VITE_API_URL=http://localhost:4000
+VITE_API_URL=http://localhost:5000
 VITE_GOOGLE_MAPS_KEY=YOUR_KEY
 ```
 
