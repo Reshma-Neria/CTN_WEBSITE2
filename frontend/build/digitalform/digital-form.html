@@ -275,14 +275,8 @@
         border: 1px solid #bbb;
     }
 
-    .signature-container {
-        margin-top: 10px;
-        border: 1px solid #aaa;
-        padding: 10px;
-        background: #fafafa;
-    }
-
     #signatureCanvas {
+        margin-top: 10px;
         border: 1px solid #ccc;
         background: white;
         cursor: crosshair;
@@ -725,9 +719,7 @@
             <label><strong>Digital Signature <span style="color: #d32f2f;">*</span>:</strong></label>
             <p style="font-size: 12px; color: #666; margin: 5px 0;">Please sign below using your mouse or touchpad, or upload a signature image</p>
             
-            <div class="signature-container">
-                <canvas id="signatureCanvas"></canvas>
-            </div>
+            <canvas id="signatureCanvas"></canvas>
             
             <div class="signature-controls">
                 <button type="button" class="btn-clear" onclick="clearSignature()">Clear Signature</button>

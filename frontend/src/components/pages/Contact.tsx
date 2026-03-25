@@ -1,10 +1,12 @@
-import { motion } from 'motion/react';
-import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Mail, Phone, MapPin, Clock, Send, X } from 'lucide-react';
 import { Link } from 'react-router';
+import { useEffect, useState } from 'react';
 // Import contact image
 import contactImage from '../../assets/contact.avif';
 
 export function Contact() {
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false);
   const splynxSignupUrl =
     'https://demo.splynx.com/admin/crm/sign-up?selected_internet=0&selected_voice=0&selected_recurring=0&selected_bundle=0&formTitle=Signup&formButtonText=Register&submitThanks=Thanks%20for%20signing%20up!&required_tariff=1&vat_included=0&partner_id=1&admin_id=0&crm_status=1&location=1&show_form_terms=1&form_terms_template=&required_first_name=1&required_last_name=1&required_email=1&required_phone=1&required_street=1&required_city=1&required_zip=1';
 
@@ -34,6 +36,26 @@ export function Contact() {
       action: 'Support available 24/7',
     },
   ];
+
+  useEffect(() => {
+    if (!isMessageModalOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMessageModalOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleEscape);
+    };
+  }, [isMessageModalOpen]);
 
   return (
     <div className="min-h-[60vh] md:min-h-screen py-20 px-4">
@@ -117,19 +139,19 @@ export function Contact() {
             <div className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Send us a message</h2>
 
-              <div className="bg-white/10 rounded-xl p-4 border border-white/10">
-                <iframe
-                  data-widget-type="embedded"
-                  width="100%"
-                  src={splynxSignupUrl}
-                  id="splynx-signup-widget-frame"
-                  title="Splynx Signup Form"
-                  frameBorder={0}
-                  loading="eager"
-                  allow="fullscreen"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="w-full h-[820px] sm:h-[980px] rounded-lg border-0 pointer-events-auto"
-                />
+              <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-gradient-to-br from-[#16335b] via-[#1e3a5f] to-[#0d223f] p-6 md:p-8">
+                <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-[#a4d65e]/15 blur-3xl" />
+                <div className="absolute bottom-0 left-0 h-24 w-24 rounded-full bg-white/10 blur-3xl" />
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setIsMessageModalOpen(true)}
+                    className="inline-flex items-center justify-center gap-3 rounded-xl bg-[#a4d65e] px-6 py-4 text-lg font-semibold text-[#0d223f] transition-transform hover:scale-[1.02]"
+                  >
+                    <Send className="h-5 w-5" />
+                    <span>Send Us a Message</span>
+                  </button>
+                </div>
               </div>
 
               <div className="mt-4 pt-4 border-t border-white/10">
@@ -191,6 +213,59 @@ export function Contact() {
           </div>
         </motion.div>
       </div>
+
+      <AnimatePresence>
+        {isMessageModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-[#041224]/82 px-4 py-6 backdrop-blur-sm"
+            onClick={() => setIsMessageModalOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 24, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 24, scale: 0.96 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="relative flex h-[90vh] w-[90vw] max-w-none flex-col overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#07172b] shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="flex items-start justify-between gap-4 border-b border-white/10 bg-[#0b1f39] px-5 py-4 md:px-8 md:py-5">
+                <div>
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#d7efac]">
+                    Contact Form
+                  </p>
+                  <h2 className="mt-2 text-2xl md:text-3xl font-bold text-white">Send us a message</h2>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsMessageModalOpen(false)}
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+                  aria-label="Close message form"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="flex-1 bg-[#07172b] p-2 md:p-3">
+                <iframe
+                  data-widget-type="embedded"
+                  width="100%"
+                  src={splynxSignupUrl}
+                  id="splynx-signup-widget-frame"
+                  title="Splynx Signup Form"
+                  frameBorder={0}
+                  loading="eager"
+                  allow="fullscreen"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="h-full w-full rounded-[1rem] border-0 bg-white"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
