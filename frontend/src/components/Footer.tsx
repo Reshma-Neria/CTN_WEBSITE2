@@ -75,11 +75,6 @@ export function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/partners" className="text-white hover:text-[#a4d65e] transition-colors text-sm">
-                  Partners
-                </Link>
-              </li>
-              <li>
                 <Link to="/contact" className="text-white hover:text-[#a4d65e] transition-colors text-sm">
                   Contact
                 </Link>

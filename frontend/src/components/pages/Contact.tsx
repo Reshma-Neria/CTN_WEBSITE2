@@ -132,25 +132,6 @@ export function Contact() {
                 />
               </div>
 
-              <div className="mt-3 grid gap-3 md:grid-cols-2">
-                <a
-                  href={splynxSignupUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#a4d65e] px-4 py-3 font-semibold text-white transition-transform hover:scale-105"
-                >
-                  <Send className="h-5 w-5" />
-                  Open Form to Print PDF
-                </a>
-                <a
-                  href="mailto:info@ctn.mw?subject=Completed%20Splynx%20Signup%20Form&body=Hi%20CTN%2C%0A%0AI%20have%20completed%20the%20signup%20form.%20Please%20find%20the%20PDF%20attached.%0A"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#002147] px-4 py-3 font-semibold text-white transition-transform hover:scale-105"
-                >
-                  <Send className="h-5 w-5" />
-                  Send PDF by Email
-                </a>
-              </div>
-
               <div className="mt-4 pt-4 border-t border-white/10">
                 <p className="text-white text-center mb-3 text-lg md:text-xl">
                   Prefer our website application form?

@@ -34,6 +34,7 @@ export function Packages() {
       name: 'Tiyeni Standard',
       price: 'MK 49,500',
       color: 'from-blue-500 to-blue-600',
+      popular: true,
       features: [
         '10 mbps Unlimited, Uncapped, No FUP',
         '10 mbps Unlimited Internet Access',
@@ -60,7 +61,6 @@ export function Packages() {
       name: 'Tiyeni Executive',
       price: 'MK 109,500',
       color: 'from-purple-500 to-purple-600',
-      popular: true,
       features: [
         '40 mbps Unlimited, Uncapped, No FUP',
         '40 mbps Unlimited Internet Access',
@@ -105,7 +105,6 @@ export function Packages() {
       ram: '8 GB RAM',
       storage: '128 GB Storage',
       color: 'from-purple-500 to-purple-600',
-      popular: true,
       features: [
         'Perfect for Medium Workloads',
         'Malawi VPS',

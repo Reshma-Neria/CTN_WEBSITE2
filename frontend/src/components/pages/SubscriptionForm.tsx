@@ -49,11 +49,6 @@ export function SubscriptionForm() {
           <h1 className="text-3xl md:text-5xl font-bold text-[#1e3a5f] mb-4">
             Subscription <span className="text-[#a4d65e]">Application Form</span>
           </h1>
-          <p className="text-xl text-white max-w-3xl mx-auto mb-6">
-            Complete this form to subscribe to CTN services. After filling out the form, 
-            you can print it or save it as PDF and send it back to us.
-          </p>
-          
           <div className="flex flex-wrap justify-center gap-4 mb-8">
             <div className="w-full sm:w-auto bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-gray-200 flex items-center gap-3">
               <Mail className="w-6 h-6 text-[#a4d65e]" />
@@ -138,38 +133,6 @@ export function SubscriptionForm() {
           </div>
         </motion.div>
 
-        {/* Instructions */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mt-8 bg-white/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200"
-        >
-          <h3 className="text-xl font-bold text-white mb-4">How to Submit Your Form</h3>
-          <ol className="list-decimal list-inside space-y-2 text-white">
-            <li>Fill out all required fields in the form above</li>
-            <li>Select your preferred package and payment method</li>
-            <li>Click on the map to set your location coordinates (or use "Use My Current Location" button)</li>
-            <li>Read and accept the Terms and Conditions</li>
-            <li>Sign the form digitally (draw or upload signature)</li>
-            <li>Click "Print / Save as PDF" button in the form</li>
-            <li>Save the PDF or print the form</li>
-            <li>Send the completed form to us via:
-              <ul className="list-disc list-inside ml-6 mt-2 space-y-1">
-                <li><strong>Email:</strong> <a href="mailto:info@ctnmw.net" className="text-[#a4d65e] hover:underline">info@ctnmw.net</a></li>
-                <li><strong>WhatsApp:</strong> <a href="https://wa.me/265981187766" className="text-[#a4d65e] hover:underline">+265 981 187 766</a></li>
-              </ul>
-            </li>
-          </ol>
-          
-          <div className="mt-6 p-4 bg-[#a4d65e]/10 rounded-lg border border-[#a4d65e]/30">
-            <p className="text-white">
-              <strong>Note:</strong> If you experience any issues viewing the form, click "Open in New Tab" above 
-              to open it in a separate window. The form includes all necessary features including map integration, 
-              digital signature, and print functionality.
-            </p>
-          </div>
-        </motion.div>
       </div>
     </div>
   );

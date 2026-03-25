@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { ArrowRight, Wifi, Zap, Shield, Users } from 'lucide-react';
 import { Link } from 'react-router';
 import { useState, useEffect } from 'react';
@@ -7,11 +7,14 @@ import { useState, useEffect } from 'react';
 import thandaManduwiPhoto from '../../assets/thanda-manduwi.avif';
 import macdonaldNyoniPhoto from '../../assets/macdonald-nyoni.avif';
 import kbgPhoto from '../../assets/kbg.avif';
-// Import hero image
-import familyImage from '../../assets/family.png';
+import familyFootballImage from '../../assets/family-football.png';
+import salonLadiesImage from '../../assets/salon ladies.webp';
+import primaryImage from '../../assets/primary.webp';
+import churchImage from '../../assets/church.webp';
 
 export function Home() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [currentHeroSlide, setCurrentHeroSlide] = useState(0);
 
   const testimonials = [
     {
@@ -41,6 +44,21 @@ export function Home() {
 
     return () => clearInterval(interval);
   }, [testimonials.length]);
+
+  const heroSlides = [
+    { src: familyFootballImage, alt: 'Family watching football' },
+    { src: salonLadiesImage, alt: 'Salon ladies' },
+    { src: primaryImage, alt: 'Primary school learners' },
+    { src: churchImage, alt: 'Church gathering' },
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentHeroSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [heroSlides.length]);
 
   const goToPrevious = () => {
     setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
@@ -126,13 +144,34 @@ export function Home() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src={familyImage}
-                  alt="Family"
-                  className="w-full h-[400px] object-cover"
-                />
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl h-[400px]">
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={currentHeroSlide}
+                    src={heroSlides[currentHeroSlide].src}
+                    alt={heroSlides[currentHeroSlide].alt}
+                    className="w-full h-full object-cover absolute inset-0"
+                    initial={{ opacity: 0, scale: 1.03 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.7, ease: 'easeInOut' }}
+                  />
+                </AnimatePresence>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1e3a5f] via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                  {heroSlides.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentHeroSlide(index)}
+                      className={`h-2 rounded-full transition-all ${
+                        index === currentHeroSlide
+                          ? 'w-8 bg-[#a4d65e]'
+                          : 'w-2 bg-white/60 hover:bg-white/80'
+                      }`}
+                      aria-label={`Show image ${index + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
             </motion.div>
           </div>

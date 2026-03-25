@@ -35,7 +35,6 @@ export function Header() {
     { label: "About", path: "/about" },
     { label: "Packages", path: "/packages" },
     { label: "Business", path: "/business" },
-    { label: "Partners", path: "/partners" },
     { label: "Contact", path: "/contact" },
   ];
 

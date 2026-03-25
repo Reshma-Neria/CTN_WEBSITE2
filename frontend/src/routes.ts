@@ -6,7 +6,6 @@ import { Packages } from "./components/pages/Packages";
 import { Business } from "./components/pages/Business";
 import { BusinessPackages } from "./components/pages/BusinessPackages";
 import { Contact } from "./components/pages/Contact";
-import { Partners } from "./components/pages/Partners";
 import { SubscriptionForm } from "./components/pages/SubscriptionForm";
 import { NotFound } from "./components/pages/NotFound";
 
@@ -21,7 +20,6 @@ export const router = createBrowserRouter([
       { path: "business", Component: Business },
       { path: "business-packages", Component: BusinessPackages },
       { path: "contact", Component: Contact },
-      { path: "partners", Component: Partners },
       { path: "subscribe", Component: SubscriptionForm },
       { path: "*", Component: NotFound },
     ],

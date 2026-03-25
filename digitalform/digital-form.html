@@ -128,7 +128,7 @@
     select {
         width: 100%;
         padding: 6px;
-        border: 1px solid #aaa;
+        border: 1px solid #000;
         font-size: 13px;
     }
 
@@ -177,16 +177,17 @@
     input[readonly] {
         background-color: #f5f5f5;
         cursor: not-allowed;
+        border: 1px solid #000;
     }
 
-    input:invalid:not(:focus):not(:placeholder-shown),
-    select:invalid:not(:focus) {
+    .was-validated input:invalid:not(:focus):not(:placeholder-shown),
+    .was-validated select:invalid:not(:focus) {
         border-color: #d32f2f;
         box-shadow: 0 0 0 1px #d32f2f;
     }
 
-    input:required:invalid,
-    select:required:invalid {
+    .was-validated input:required:invalid,
+    .was-validated select:required:invalid {
         border-left: 3px solid #d32f2f;
     }
 
@@ -332,6 +333,19 @@
         max-height: 150px;
     }
 
+    .identity-document-preview {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        background: white;
+        display: none;
+    }
+
+    .identity-document-preview img {
+        max-width: 100%;
+        max-height: 220px;
+    }
+
     .agreement-checkbox {
         margin: 15px 0;
         font-size: 13px;
@@ -443,6 +457,41 @@
         #map,
         button[onclick="getCurrentLocation()"] {
             display: none !important;
+        }
+
+        #identityDocumentSection p,
+        #identityDocumentSection label,
+        #identityDocumentSection input[type="file"] {
+            display: none !important;
+        }
+
+        #identityDocumentSection legend {
+            display: block !important;
+            font-weight: bold !important;
+            font-size: 14px !important;
+            margin: 0 0 6px 0 !important;
+            padding: 0 !important;
+        }
+
+        #identityDocumentSection {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 0 12px 0 !important;
+        }
+
+        #identityDocumentSection .identity-document-preview {
+            display: block !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+        }
+
+        #identityDocumentSection .identity-document-preview img {
+            display: block !important;
+            max-width: 100% !important;
+            max-height: 220px !important;
+            border: 1px solid #000 !important;
         }
 
         input[readonly] {
@@ -687,6 +736,27 @@
 
     
 
+    <fieldset id="identityDocumentSection">
+        <legend>Identity Attachment</legend>
+        <p style="font-size: 12px; color: #666; margin: 5px 0 10px;">
+            Upload a clear photo of the selected identity document.
+        </p>
+        <label id="identityDocumentLabel" class="required">Identity Document Photo</label>
+        <input
+            type="file"
+            id="identityDocumentPhoto"
+            name="identityDocumentPhoto"
+            accept="image/*"
+            required
+            disabled
+            onchange="handleIdentityDocumentUpload(event)"
+        >
+        <div class="identity-document-preview" id="identityDocumentPreview">
+            <p><strong>Attached Identity Document:</strong></p>
+            <img id="identityDocumentImage" src="" alt="Identity Document">
+        </div>
+    </fieldset>
+
     <div class="logos">
         Powered by Mikrotik · Ubiquiti · NetGate Firewall · Sophos
     </div>
@@ -807,6 +877,7 @@
     let lastX = 0;
     let lastY = 0;
     let signatureDataURL = null;
+    let identityDocumentDataURL = null;
 
     // Set canvas size
     function resizeCanvas() {
@@ -850,7 +921,9 @@
             // Terms
             agreeTerms: document.getElementById('agreeTerms')?.checked || false,
             // Signature
-            signatureDataURL: signatureDataURL || ''
+            signatureDataURL: signatureDataURL || '',
+            // Identity document image
+            identityDocumentDataURL: identityDocumentDataURL || ''
         };
         sessionStorage.setItem('ctnFormData', JSON.stringify(formData));
     }
@@ -934,6 +1007,15 @@
                     updateSignaturePreview();
                 };
                 img.src = formData.signatureDataURL;
+            }
+
+            // Restore identity document preview
+            if (formData.identityDocumentDataURL) {
+                identityDocumentDataURL = formData.identityDocumentDataURL;
+                const identityPreview = document.getElementById('identityDocumentPreview');
+                const identityImage = document.getElementById('identityDocumentImage');
+                identityImage.src = formData.identityDocumentDataURL;
+                identityPreview.style.display = 'block';
             }
         } catch (e) {
             console.error('Error restoring form data:', e);
@@ -1106,6 +1188,40 @@
         }
     }
 
+    function handleIdentityDocumentUpload(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('identityDocumentPreview');
+        const image = document.getElementById('identityDocumentImage');
+
+        if (!file) {
+            identityDocumentDataURL = null;
+            image.src = '';
+            preview.style.display = 'none';
+            return;
+        }
+
+        if (!file.type.startsWith('image/')) {
+            alert('Please upload an image file for the identity document.');
+            event.target.value = '';
+            identityDocumentDataURL = null;
+            image.src = '';
+            preview.style.display = 'none';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            identityDocumentDataURL = e.target.result;
+            image.src = identityDocumentDataURL;
+            preview.style.display = 'block';
+            setTimeout(function() {
+                saveFormData();
+                checkFormCompletion();
+            }, 100);
+        };
+        reader.readAsDataURL(file);
+    }
+
     function validateForm() {
         const errors = [];
 
@@ -1148,6 +1264,17 @@
             }
         }
 
+        // Validate identity document attachment
+        const identityDocumentInput = document.getElementById('identityDocumentPhoto');
+        const hasIdentityDocument =
+            (identityDocumentInput.files && identityDocumentInput.files.length > 0) || !!identityDocumentDataURL;
+        if (!hasIdentityDocument) {
+            errors.push('Please attach a photo of your selected identity document');
+            identityDocumentInput.setCustomValidity('Identity document photo required');
+        } else {
+            identityDocumentInput.setCustomValidity('');
+        }
+
         // Validate coordinates
         const latitude = document.getElementById('latitude').value;
         const longitude = document.getElementById('longitude').value;
@@ -1187,6 +1314,11 @@
     }
 
     function printForm() {
+        const formElement = document.getElementById('applicationForm');
+        if (formElement) {
+            formElement.classList.add('was-validated');
+        }
+
         // Comprehensive form validation
         const errors = validateForm();
         
@@ -1201,6 +1333,10 @@
                 firstError.focus();
             }
             return;
+        }
+
+        if (formElement) {
+            formElement.classList.remove('was-validated');
         }
 
         // Ensure signature is captured
@@ -1279,25 +1415,32 @@
         const identityNumberField = document.getElementById('identityNumberField');
         const identityNumberLabel = document.getElementById('identityNumberLabel');
         const identityNumberInput = document.getElementById('identityNumber');
+        const identityDocumentLabel = document.getElementById('identityDocumentLabel');
+        const identityDocumentInput = document.getElementById('identityDocumentPhoto');
 
         if (identityType) {
             // Show the number field
             identityNumberField.style.display = 'block';
             identityNumberInput.required = true;
+            identityDocumentInput.disabled = false;
+            identityDocumentInput.required = true;
             
             // Update label and input name based on selection
             switch(identityType) {
                 case 'idNumber':
                     identityNumberLabel.textContent = 'ID Number';
                     identityNumberInput.name = 'idNumber';
+                    identityDocumentLabel.textContent = 'Attach photo of your National ID';
                     break;
                 case 'passportNumber':
                     identityNumberLabel.textContent = 'Passport Number';
                     identityNumberInput.name = 'passportNumber';
+                    identityDocumentLabel.textContent = 'Attach photo of your Passport';
                     break;
                 case 'driversLicence':
                     identityNumberLabel.textContent = 'Driver\'s Licence Number';
                     identityNumberInput.name = 'driversLicenceNumber';
+                    identityDocumentLabel.textContent = 'Attach photo of your Driver\'s Licence';
                     break;
             }
             // Clear the input when switching types
@@ -1307,6 +1450,13 @@
             identityNumberField.style.display = 'none';
             identityNumberInput.value = '';
             identityNumberInput.required = false;
+            identityDocumentInput.disabled = true;
+            identityDocumentInput.required = false;
+            identityDocumentInput.value = '';
+            identityDocumentLabel.textContent = 'Identity Document Photo';
+            identityDocumentDataURL = null;
+            document.getElementById('identityDocumentPreview').style.display = 'none';
+            document.getElementById('identityDocumentImage').src = '';
         }
         
         // Save and check form completion

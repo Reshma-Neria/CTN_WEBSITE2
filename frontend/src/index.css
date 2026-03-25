@@ -2017,3 +2017,70 @@ html {
   inherits: false;
   initial-value: 1;
 }
+
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+.light-mode .text-white {
+  color: rgb(15 23 42) !important;
+}
+
+.light-mode .text-white\/90 {
+  color: rgb(15 23 42 / 0.9) !important;
+}
+
+.light-mode .text-white\/80 {
+  color: rgb(15 23 42 / 0.8) !important;
+}
+
+.light-mode .text-white\/70 {
+  color: rgb(15 23 42 / 0.7) !important;
+}
+
+.light-mode .text-white\/60 {
+  color: rgb(15 23 42 / 0.6) !important;
+}
+
+.light-mode .bg-white\/5 {
+  background-color: rgb(255 255 255 / 0.75) !important;
+}
+
+.light-mode .bg-white\/10 {
+  background-color: rgb(255 255 255 / 0.85) !important;
+}
+
+.light-mode .bg-white\/20 {
+  background-color: rgb(255 255 255 / 0.92) !important;
+}
+
+.light-mode .border-white\/10 {
+  border-color: rgb(15 23 42 / 0.12) !important;
+}
+
+.light-mode .border-white\/20 {
+  border-color: rgb(15 23 42 / 0.18) !important;
+}
+
+.light-mode .from-\[\#0a1929\],
+.light-mode .from-\[\#1e3a5f\],
+.light-mode .via-\[\#1e3a5f\],
+.light-mode .via-\[\#2d4a6f\],
+.light-mode .to-\[\#0a1929\],
+.light-mode .to-\[\#2d4a6f\] {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important;
+  --tw-gradient-via: #ffffff var(--tw-gradient-via-position) !important;
+  --tw-gradient-to: #f8fafc var(--tw-gradient-to-position) !important;
+}
+
+.light-mode .bg-\[\#1e3a5f\]\/50 {
+  background-color: rgb(241 245 249 / 0.9) !important;
+}
+
+.light-mode .border-t.border-white\/10 {
+  border-color: rgb(15 23 42 / 0.12) !important;
+}
