@@ -8,7 +8,10 @@ declare module 'lucide-react' {
   export const Check: React.FC<IconProps>;
   export const Zap: React.FC<IconProps>;
   export const Server: React.FC<IconProps>;
+  export const ArrowLeft: React.FC<IconProps>;
   export const ArrowRight: React.FC<IconProps>;
+  export const ChevronLeft: React.FC<IconProps>;
+  export const ChevronRight: React.FC<IconProps>;
   export const Wifi: React.FC<IconProps>;
   export const Shield: React.FC<IconProps>;
   export const Users: React.FC<IconProps>;

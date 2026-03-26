@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Target, Users, Award, Globe, Zap } from 'lucide-react';
+import { Target, Users, Award, Globe, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useState, useEffect, type ComponentType } from 'react';
 
 // Import team photos
@@ -10,12 +10,6 @@ import teamLuanar from '../../assets/team-luanar.jpeg';
 import teamRoof from '../../assets/team-roof.png';
 
 interface ValueItem {
-  icon: ComponentType<{ className?: string; size?: number | string }>;
-  title: string;
-  description: string;
-}
-
-interface TeamHighlightItem {
   icon: ComponentType<{ className?: string; size?: number | string }>;
   title: string;
   description: string;
@@ -173,28 +167,35 @@ function TeamSection() {
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   const teamPhotos = [
-    { src: teamCivo, alt: 'CTN team at Civo' },
-    { src: teamDinner, alt: 'CTN team dinner' },
-    { src: teamIndoor, alt: 'CTN team indoors' },
-    { src: teamLuanar, alt: 'CTN team at LUANAR' },
-    { src: teamRoof, alt: 'CTN team on the rooftop' },
-  ];
-
-  const teamHighlights: TeamHighlightItem[] = [
     {
-      icon: Target,
-      title: 'Strong Technical Backbone',
-      description: 'Our engineering and network teams keep the infrastructure resilient, dependable, and ready to serve growing communities.',
+      src: teamCivo,
+      alt: 'CTN team at Civo',
+      title: 'Sharing ideas beyond the office',
+      description: 'The team regularly comes together in spaces that encourage collaboration, learning, and fresh thinking.',
     },
     {
-      icon: Users,
-      title: 'Support That Stays Close',
-      description: 'Customer care works hand in hand with operations so questions are answered quickly and problems are resolved clearly.',
+      src: teamDinner,
+      alt: 'CTN team dinner',
+      title: 'Celebrating wins together',
+      description: 'We make time to connect as people, not only as colleagues, and that shows up in how we work together.',
     },
     {
-      icon: Zap,
-      title: 'One Team, One Standard',
-      description: 'Clear roles, steady communication, and shared accountability help us deliver a smoother experience at every stage.',
+      src: teamIndoor,
+      alt: 'CTN team indoors',
+      title: 'Focused and hands-on',
+      description: 'Behind every installation and support request is a team that stays organized and ready to respond.',
+    },
+    {
+      src: teamLuanar,
+      alt: 'CTN team at LUANAR',
+      title: 'Close to the communities we serve',
+      description: 'Our work stays grounded in real partnerships, real places, and people who depend on reliable connectivity.',
+    },
+    {
+      src: teamRoof,
+      alt: 'CTN team on the rooftop',
+      title: 'Proud of the journey ahead',
+      description: 'CTN keeps growing through teamwork, accountability, and a shared commitment to dependable service.',
     },
   ];
 
@@ -208,11 +209,6 @@ function TeamSection() {
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, teamPhotos.length]);
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-    setIsAutoPlaying(false);
-  };
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev - 1 + teamPhotos.length) % teamPhotos.length);
@@ -241,118 +237,69 @@ function TeamSection() {
           About Our <span className="text-[#a4d65e]">Team</span>
         </motion.h2>
         <motion.div 
-          className="max-w-6xl mx-auto"
+          className="mx-auto max-w-4xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          <div className="rounded-[1.5rem] border border-white/10 bg-white/6 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.18)] backdrop-blur-lg md:rounded-[2rem] md:p-10">
-            <div className="grid gap-5 md:gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-              <div className="text-left">
-                <h3 className="mt-2 max-w-3xl text-2xl font-semibold leading-tight text-white md:mt-5 md:text-4xl">
-                  A reliable team behind every connection.
-                </h3>
-                <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/82 md:mt-5 md:text-xl">
-                  CTN is built on teamwork, clear communication, and a shared commitment to reliable service.
-                </p>
+          <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#08172c] shadow-[0_24px_60px_rgba(4,14,30,0.3)] md:rounded-[2rem]">
+            <motion.div
+              key={teamPhotos[currentIndex].src}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+            >
+              <div className="bg-[#08111d] p-3 md:p-4">
+                <div className="overflow-hidden rounded-[1rem] border border-white/8 bg-[#030913] md:rounded-[1.4rem]">
+                  <img
+                    src={teamPhotos[currentIndex].src}
+                    alt={teamPhotos[currentIndex].alt}
+                    className="mx-auto block h-[220px] w-full object-cover sm:h-[260px] md:h-[320px] lg:h-[360px]"
+                    loading="eager"
+                  />
+                </div>
               </div>
 
-            </div>
+              <div className="border-t border-white/10 bg-[#0b1b31] p-5 md:px-6 md:py-6">
+                <div className="text-left md:text-center">
+                  <p className="text-[11px] uppercase tracking-[0.28em] text-[#a4d65e]/78">
+                    {teamPhotos[currentIndex].alt}
+                  </p>
+                  <h4 className="mt-2 text-xl font-semibold text-white md:text-[1.65rem]">
+                    {teamPhotos[currentIndex].title}
+                  </h4>
+                  <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-white/72 md:text-base">
+                    {teamPhotos[currentIndex].description}
+                  </p>
+                </div>
 
-            <div className="mt-5 grid gap-4 md:mt-6 md:grid-cols-3">
-              {teamHighlights.map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.55 + index * 0.08 }}
-                  className="rounded-2xl border border-white/10 bg-[#0d223f]/55 p-4 text-left md:p-5"
-                >
-                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#a4d65e] to-[#7fb83d] text-white">
-                    <item.icon size={20} />
+                <div className="mt-5 flex items-center justify-between gap-4 border-t border-white/10 pt-4">
+                  <button
+                    onClick={goToPrevious}
+                    className="inline-flex h-11 items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 text-sm font-medium text-white transition-colors hover:bg-white/12"
+                    aria-label="Previous team photo"
+                  >
+                    <ArrowLeft size={20} />
+                    <span>Previous</span>
+                  </button>
+
+                  <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm text-white/70">
+                    {currentIndex + 1} / {teamPhotos.length}
                   </div>
-                  <h4 className="text-lg font-semibold text-white">{item.title}</h4>
-                  <p className="mt-2 text-sm leading-6 text-white/75">{item.description}</p>
-                </motion.div>
-              ))}
-            </div>
+
+                  <button
+                    onClick={goToNext}
+                    className="inline-flex h-11 items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 text-sm font-medium text-white transition-colors hover:bg-white/12"
+                    aria-label="Next team photo"
+                  >
+                    <span>Next</span>
+                    <ArrowRight size={20} />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
-      </div>
-
-      {/* Slideshow Container */}
-      <div className="relative max-w-6xl mx-auto">
-        <div className="relative h-[320px] overflow-hidden rounded-[1.5rem] shadow-2xl sm:h-[400px] md:h-[600px] md:rounded-3xl">
-          <motion.div
-            key={teamPhotos[currentIndex].src}
-            initial={{ opacity: 0.35, scale: 1.02 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.45, ease: 'easeInOut' }}
-            className="absolute inset-0"
-          >
-            <img
-              src={teamPhotos[currentIndex].src}
-              alt={teamPhotos[currentIndex].alt}
-              className="block h-full w-full object-cover"
-              loading="eager"
-            />
-          </motion.div>
-          <div className="absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1e3a5f]/80 via-[#1e3a5f]/40 to-transparent" />
-            
-            {/* Image info overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8">
-              <div className="max-w-md rounded-xl border border-white/20 bg-white/10 p-3 backdrop-blur-md md:p-4">
-                <p className="text-base font-semibold text-white md:text-lg">
-                  {teamPhotos[currentIndex].alt}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Navigation Arrows */}
-          <button
-            onClick={goToPrevious}
-            className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all hover:bg-white/30 md:left-4 md:h-12 md:w-12"
-            aria-label="Previous slide"
-          >
-            <span className="text-xl leading-none md:text-2xl" aria-hidden="true">
-              &lsaquo;
-            </span>
-          </button>
-          <button
-            onClick={goToNext}
-            className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all hover:bg-white/30 md:right-4 md:h-12 md:w-12"
-            aria-label="Next slide"
-          >
-            <span className="text-xl leading-none md:text-2xl" aria-hidden="true">
-              &rsaquo;
-            </span>
-          </button>
-        </div>
-
-        {/* Slide Indicators */}
-        <div className="mt-5 flex justify-center gap-2 md:mt-6">
-          {teamPhotos.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === currentIndex
-                  ? 'w-8 bg-[#a4d65e]'
-                  : 'w-2 bg-white/30 hover:bg-white/50'
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Slide Counter */}
-        <div className="mt-3 text-center md:mt-4">
-          <span className="text-white text-sm">
-            {currentIndex + 1} / {teamPhotos.length}
-          </span>
-        </div>
       </div>
     </motion.div>
   );
