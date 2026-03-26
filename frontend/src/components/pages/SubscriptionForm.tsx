@@ -114,18 +114,18 @@ export function SubscriptionForm() {
             }}
           />
           <div className="border-t border-gray-200 p-4 bg-gray-50">
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-5 justify-end">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <button
                 type="button"
                 onClick={printEmbeddedForm}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-[#1e3a5f] text-white font-semibold hover:bg-[#18314f] transition-colors"
+                className="w-full sm:w-auto sm:min-w-[140px] px-4 py-2 rounded-lg bg-[#1e3a5f] text-sm font-semibold text-white hover:bg-[#18314f] transition-colors"
               >
                 Print Form
               </button>
               <button
                 type="button"
                 onClick={downloadFormPdf}
-                className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-[#a4d65e] text-[#1e3a5f] font-semibold hover:bg-[#90c049] transition-colors"
+                className="w-full sm:w-auto sm:min-w-[140px] px-4 py-2 rounded-lg bg-[#a4d65e] text-sm font-semibold text-[#1e3a5f] hover:bg-[#90c049] transition-colors"
               >
                 Download PDF
               </button>

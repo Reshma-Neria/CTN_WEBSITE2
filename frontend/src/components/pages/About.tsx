@@ -262,10 +262,7 @@ function TeamSection() {
 
               <div className="border-t border-white/10 bg-[#0b1b31] p-5 md:px-6 md:py-6">
                 <div className="text-left md:text-center">
-                  <p className="text-[11px] uppercase tracking-[0.28em] text-[#a4d65e]/78">
-                    {teamPhotos[currentIndex].alt}
-                  </p>
-                  <h4 className="mt-2 text-xl font-semibold text-white md:text-[1.65rem]">
+                  <h4 className="text-xl font-semibold text-white md:text-[1.65rem]">
                     {teamPhotos[currentIndex].title}
                   </h4>
                   <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-white/72 md:text-base">

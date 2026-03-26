@@ -43,7 +43,6 @@ export function CoverageCheckModal({
     relevantStations,
     error: coverageError,
     isLoading: coverageLoading,
-    geocodedLocationName,
     checkCoverage,
     parseAndCheckCoverage,
     reset: resetCoverage,
@@ -98,90 +97,36 @@ export function CoverageCheckModal({
     setClientCoords('');
     
     try {
-      // Get current location from browser
       const location = await getCurrentLocation();
-      
-      // Update the coordinates input field
+      const stationsToUse = baseStations.length > 0 ? baseStations : await fetchBaseStations();
+
       setClientCoords(`${location.lat}, ${location.lng}`);
-      
-      // Wait a moment to ensure state is updated, then check coverage
-      // Directly check coverage with coordinates object instead of parsing string
-      if (baseStations.length > 0) {
-        await checkCoverage(location, baseStations);
-      } else {
-        // If base stations aren't loaded yet, wait for them (max 5 seconds)
-        let attempts = 0;
-        const maxAttempts = 50; // 5 seconds max wait
-        const checkWhenReady = () => {
-          if (baseStations.length > 0) {
-            checkCoverage(location, baseStations);
-          } else if (attempts < maxAttempts) {
-            attempts++;
-            setTimeout(checkWhenReady, 100);
-          } else {
-            console.error('Base stations not loaded after waiting');
-          }
-        };
-        checkWhenReady();
-      }
-    } catch (error) {
-      // Error is already set by useGeolocation hook
-      console.error('Error getting location:', error);
+
+      await checkCoverage(location, stationsToUse);
+    } catch {
+      // Hooks already surface user-facing errors.
     }
   };
 
   const handleCheckCoverage = async (e?: React.MouseEvent) => {
-    console.log('handleCheckCoverage called', { clientCoords, baseStationsLength: baseStations.length });
-    
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
-    
-    if (!clientCoords.trim()) {
-      console.log('No coordinates provided');
-      // Set error if coordinates are empty
-      return;
-    }
-    
+
     // Clear geolocation errors when manually checking
     resetGeoError();
-    
-    // Ensure base stations are loaded before checking coverage
-    let stationsToUse = baseStations;
-    if (baseStations.length === 0) {
-      console.log('Base stations not loaded, fetching...');
-      // Try to fetch base stations if not loaded
-      try {
-        stationsToUse = await fetchBaseStations();
-        console.log('Base stations fetched:', stationsToUse.length);
-      } catch (error) {
-        console.error('Failed to fetch base stations:', error);
-        // Continue anyway - the API will handle it
-      }
-    }
-    
-    console.log('Calling parseAndCheckCoverage with:', { clientCoords, stationsCount: stationsToUse.length });
+
+    const stationsToUse = baseStations.length > 0 ? baseStations : await fetchBaseStations();
+
     try {
       const result = await parseAndCheckCoverage(clientCoords, stationsToUse);
-      console.log('parseAndCheckCoverage result:', result);
-      
-      // Update input field with coordinates if geocoding was successful
-      // This helps users see what location was found on the map
-      if (result && result.validCoords) {
-        const wasLocationName = !GeocodingService.isCoordinateInput(clientCoords);
-        if (wasLocationName && geocodedLocationName) {
-          // Update input to show coordinates that were found
-          setClientCoords(`${result.validCoords.lat}, ${result.validCoords.lng}`);
-        }
-      } else if (result === null) {
-        // parseAndCheckCoverage returned null, which means there was a parsing error
-        // Error is already set by the hook
-        console.log('Coverage check failed: invalid coordinates or location not found');
+
+      if (result?.validCoords && !GeocodingService.isCoordinateInput(clientCoords)) {
+        setClientCoords(`${result.validCoords.lat}, ${result.validCoords.lng}`);
       }
-    } catch (error) {
-      console.error('Error checking coverage:', error);
-      // Error is handled by the hook
+    } catch {
+      // The hook already owns the error state shown to the user.
     }
   };
 

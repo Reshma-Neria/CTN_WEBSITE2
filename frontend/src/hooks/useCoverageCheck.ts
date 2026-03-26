@@ -4,7 +4,7 @@
  * Dependency Inversion: Depends on abstractions (IApiService, CoverageService)
  */
 
-import { useState, useCallback } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { Coordinates, BaseStation, RelevantStations } from '../types/coverage';
 import { ApiService, type IApiService } from '../services/apiService';
 import { CoverageService } from '../services/coverageService';
@@ -23,8 +23,8 @@ interface CoverageCheckState {
 }
 
 export function useCoverageCheck(apiService?: IApiService) {
-  const service = apiService || new ApiService();
-  
+  const service = useMemo(() => apiService || new ApiService(), [apiService]);
+
   const [state, setState] = useState<CoverageCheckState>({
     isInCoverage: null,
     nearestStation: null,
@@ -40,20 +40,15 @@ export function useCoverageCheck(apiService?: IApiService) {
       setState((prev) => ({ ...prev, error: '', isLoading: true }));
 
       try {
-        // Validate coordinates
         const validCoords = validateCoordinates(coordinates);
-        
-        // Check coverage via API
         const result = await service.checkCoverage(validCoords);
-        
-        // Calculate relevant stations
+
         const relevantStations = CoverageService.calculateRelevantStations(
           validCoords,
           baseStations,
           result.inCoverage
         );
 
-        // Calculate distances for display
         let nearestStationInfo: { name: string; distance: number } | null = null;
         if (result.nearest) {
           nearestStationInfo = {
@@ -61,10 +56,7 @@ export function useCoverageCheck(apiService?: IApiService) {
             distance: result.nearest.distanceKm,
           };
         } else if (relevantStations.nearest) {
-          const distance = DistanceService.calculateDistance(
-            validCoords,
-            relevantStations.nearest
-          );
+          const distance = DistanceService.calculateDistance(validCoords, relevantStations.nearest);
           nearestStationInfo = {
             name: relevantStations.nearest.name,
             distance,
@@ -78,7 +70,7 @@ export function useCoverageCheck(apiService?: IApiService) {
           relevantStations,
           error: '',
           isLoading: false,
-          geocodedLocationName: null, // Reset when using direct coordinates
+          geocodedLocationName: null,
         });
 
         return { validCoords, result, relevantStations };
@@ -104,20 +96,28 @@ export function useCoverageCheck(apiService?: IApiService) {
       let coordinates: Coordinates;
 
       try {
-        // First, check if input looks like coordinates
-        if (GeocodingService.isCoordinateInput(coordString)) {
-          // Try to parse as coordinates
-          const parsed = parseCoordinates(coordString);
-          
+        const trimmedInput = coordString.trim();
+        if (!trimmedInput) {
+          setState((prev) => ({
+            ...prev,
+            error: 'Enter a location, landmark, address, or coordinates before checking coverage.',
+            isLoading: false,
+            geocodedLocationName: null,
+          }));
+          return null;
+        }
+
+        if (GeocodingService.isCoordinateInput(trimmedInput)) {
+          const parsed = parseCoordinates(trimmedInput);
+
           if (!parsed) {
             const error = 'Invalid coordinate format. Supported formats:\n' +
-              '• Decimal: "-13.9626, 33.7741" or "-13.9626 33.7741"\n' +
-              '• DMS: "14°01\'12.3"S 33°48\'05.0"E" or "14° 01\' 12.3" S, 33° 48\' 05.0" E"';
+              '- Decimal: "-13.9626, 33.7741" or "-13.9626 33.7741"\n' +
+              '- DMS: "14 01\'12.3\\"S 33 48\'05.0\\"E"';
             setState((prev) => ({ ...prev, error, isLoading: false }));
             return null;
           }
 
-          // Validate ranges
           if (isNaN(parsed.lat) || isNaN(parsed.lng)) {
             setState((prev) => ({ ...prev, error: 'Coordinates must be valid numbers.', isLoading: false }));
             return null;
@@ -134,32 +134,27 @@ export function useCoverageCheck(apiService?: IApiService) {
 
           coordinates = parsed;
         } else {
-          // Input looks like a location name, try to geocode it
           try {
-            const geocodingResult = await GeocodingService.geocode(coordString, 'MW');
+            const geocodingResult = await GeocodingService.geocode(trimmedInput, 'MW');
             coordinates = geocodingResult.coordinates;
-            
-            // Store the geocoded location name for display
+
             setState((prev) => ({ ...prev, geocodedLocationName: geocodingResult.displayName }));
-            
-            console.log(`Geocoded "${coordString}" to: ${coordinates.lat}, ${coordinates.lng} (${geocodingResult.displayName})`);
           } catch (geocodeError) {
-            const errorMessage = geocodeError instanceof Error 
-              ? geocodeError.message 
-              : `Location "${coordString}" not found. This location may not exist on the map.\n\nPlease try:\n` +
-                '• A more specific location name (e.g., "Lilongwe Area 47 Sector 1, Malawi")\n' +
-                '• Include city/area name (e.g., "Blantyre, Malawi")\n' +
-                '• Or use coordinates instead (e.g., "-13.9626, 33.7741")';
+            const errorMessage = geocodeError instanceof Error
+              ? geocodeError.message
+              : `Location "${trimmedInput}" not found. This location may not exist on the map.\n\nPlease try:\n` +
+                '- A more specific location name (e.g., "Lilongwe Area 47 Sector 1, Malawi")\n' +
+                '- Include city or area name (e.g., "Blantyre, Malawi")\n' +
+                '- Or use coordinates instead (e.g., "-13.9626, 33.7741")';
             setState((prev) => ({ ...prev, error: errorMessage, isLoading: false, geocodedLocationName: null }));
             return null;
           }
         }
 
-        // Check coverage with the coordinates
         return checkCoverage(coordinates, baseStations);
       } catch (error) {
-        const errorMessage = error instanceof Error 
-          ? error.message 
+        const errorMessage = error instanceof Error
+          ? error.message
           : 'Failed to process location. Please try again.';
         setState((prev) => ({ ...prev, error: errorMessage, isLoading: false }));
         return null;

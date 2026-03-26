@@ -66,7 +66,6 @@ export function CoverageInputSection({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Check Coverage button clicked');
             onCheckCoverage();
           }}
           disabled={isCheckingCoverage}

@@ -3,17 +3,17 @@
  * Single Responsibility: Fetch and manage base stations
  */
 
-import { useState, useEffect } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { BaseStation } from '../types/coverage';
 import { ApiService, type IApiService } from '../services/apiService';
 
 export function useBaseStations(apiService?: IApiService) {
-  const service = apiService || new ApiService();
+  const service = useMemo(() => apiService || new ApiService(), [apiService]);
   const [baseStations, setBaseStations] = useState<BaseStation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
 
-  const fetchBaseStations = async (): Promise<BaseStation[]> => {
+  const fetchBaseStations = useCallback(async (): Promise<BaseStation[]> => {
     setIsLoading(true);
     setError('');
     
@@ -29,7 +29,7 @@ export function useBaseStations(apiService?: IApiService) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [service]);
 
   return {
     baseStations,

@@ -6,6 +6,13 @@
 
 import type { BaseStation, Coordinates, CoverageResult } from '../types/coverage';
 
+interface ApiBaseStation {
+  id: number | string;
+  name: string;
+  lat: number | string;
+  lng: number | string;
+}
+
 export interface IApiService {
   fetchBaseStations(): Promise<BaseStation[]>;
   checkCoverage(coordinates: Coordinates): Promise<CoverageResult>;
@@ -15,7 +22,29 @@ export class ApiService implements IApiService {
   private readonly baseUrl: string;
 
   constructor(baseUrl?: string) {
-    this.baseUrl = baseUrl || (import.meta.env.VITE_API_URL as string) || 'http://localhost:5000';
+    this.baseUrl = baseUrl ?? ApiService.resolveBaseUrl();
+  }
+
+  private static resolveBaseUrl(): string {
+    const configuredBaseUrl = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
+    if (configuredBaseUrl) {
+      return configuredBaseUrl.replace(/\/+$/, '');
+    }
+
+    if (typeof window === 'undefined') {
+      return 'http://localhost:5000';
+    }
+
+    const { hostname } = window.location;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return 'http://localhost:5000';
+    }
+
+    return '';
+  }
+
+  private buildUrl(pathname: string): string {
+    return this.baseUrl ? `${this.baseUrl}${pathname}` : pathname;
   }
 
   /**
@@ -26,7 +55,7 @@ export class ApiService implements IApiService {
     const timeoutId = setTimeout(() => controller.abort(), 5000);
 
     try {
-      const response = await fetch(`${this.baseUrl}/api/base-stations`, {
+      const response = await fetch(this.buildUrl('/api/base-stations'), {
         signal: controller.signal,
       });
 
@@ -35,15 +64,15 @@ export class ApiService implements IApiService {
       }
 
       const data = await response.json();
-      return (data || []).map((s: any) => ({
-        id: s.id,
-        name: s.name,
-        lat: Number(s.lat),
-        lng: Number(s.lng),
+      return ((data || []) as ApiBaseStation[]).map((station) => ({
+        id: Number(station.id),
+        name: station.name,
+        lat: Number(station.lat),
+        lng: Number(station.lng),
       }));
     } catch (error) {
       console.error('Failed to fetch base stations:', error);
-      throw new Error('Failed to fetch coverage information. Ensure backend is running.');
+      throw new Error('Failed to fetch coverage information. Ensure the coverage API is reachable.');
     } finally {
       clearTimeout(timeoutId);
     }
@@ -54,7 +83,7 @@ export class ApiService implements IApiService {
    */
   async checkCoverage(coordinates: Coordinates): Promise<CoverageResult> {
     try {
-      const response = await fetch(`${this.baseUrl}/api/coverage`, {
+      const response = await fetch(this.buildUrl('/api/coverage'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(coordinates),

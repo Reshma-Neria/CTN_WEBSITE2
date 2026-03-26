@@ -47,11 +47,10 @@ function parseStationPayload(payload = {}) {
 
 // Initialize DB (MySQL)
 dbMySQL.initDb()
-  .then(() => console.log('DB initialized'))
+  .then(() => console.log('Storage initialized'))
   .catch((err) => {
     console.error('DB init failed:', err);
-    console.error('Make sure MySQL is running and the ctn database is created.');
-    process.exit(1);
+    console.error('Coverage endpoints will stay online, but data access may be limited until storage is available.');
   });
 
 // GET /api/base-stations

@@ -1,8 +1,12 @@
 export function loadGoogleMaps(key?: string): Promise<void> {
-  const k = key || (import.meta.env.VITE_GOOGLE_MAPS_KEY as string) || '';
+  const k =
+    key ||
+    (import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string) ||
+    (import.meta.env.VITE_GOOGLE_MAPS_KEY as string) ||
+    '';
   
   if (!k || k.includes('YOUR_GOOGLE_MAPS_API_KEY')) {
-    const error = 'Google Maps API key is missing or not configured. Please set VITE_GOOGLE_MAPS_KEY in .env.local';
+    const error = 'Google Maps API key is missing or not configured. Please set VITE_GOOGLE_MAPS_API_KEY or VITE_GOOGLE_MAPS_KEY in .env.local';
     console.error(error);
     return Promise.reject(new Error(error));
   }

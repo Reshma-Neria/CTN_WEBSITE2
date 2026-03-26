@@ -5,6 +5,7 @@
  */
 
 import type { Coordinates } from '../types/coverage';
+import { normalizeCoordinateInput } from '../utils/coordinateParser';
 
 export interface GeocodingResult {
   coordinates: Coordinates;
@@ -15,41 +16,34 @@ export class GeocodingService {
   private static readonly GOOGLE_GEOCODE_API_URL = 'https://maps.googleapis.com/maps/api/geocode/json';
   private static readonly NOMINATIM_API_URL = 'https://nominatim.openstreetmap.org/search';
   private static readonly REQUEST_DELAY_MS = 1000; // Rate limiting: 1 request per second
-  
+
   /**
    * Get Google Maps API key from environment variables
    */
   private static getGoogleMapsApiKey(): string | null {
-    // Check for API key in environment variables
-    return import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 
-           import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY || 
-           null;
+    return import.meta.env.VITE_GOOGLE_MAPS_API_KEY ||
+      import.meta.env.VITE_GOOGLE_MAPS_KEY ||
+      import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY ||
+      null;
   }
 
   /**
    * Check if input looks like coordinates (contains numbers and degree symbols or decimal points)
    */
   static isCoordinateInput(input: string): boolean {
-    const trimmed = input.trim();
-    
-    // Check for DMS format (contains degree symbols)
-    if (trimmed.includes('°') || trimmed.includes("'") || trimmed.includes('"')) {
+    const trimmed = normalizeCoordinateInput(input);
+
+    if (trimmed.includes('\u00B0') || trimmed.includes("'") || trimmed.includes('"')) {
       return true;
     }
-    
-    // Check for decimal format (contains numbers with comma or space separator)
-    const decimalPattern = /^-?\d+\.?\d*\s*[,，]\s*-?\d+\.?\d*$/;
+
+    const decimalPattern = /^-?\d+\.?\d*\s*,\s*-?\d+\.?\d*$/;
     if (decimalPattern.test(trimmed)) {
       return true;
     }
-    
-    // Check for space-separated decimal coordinates
+
     const spacePattern = /^-?\d+\.?\d*\s+-?\d+\.?\d*$/;
-    if (spacePattern.test(trimmed)) {
-      return true;
-    }
-    
-    return false;
+    return spacePattern.test(trimmed);
   }
 
   /**
@@ -82,10 +76,10 @@ export class GeocodingService {
     if (data.status === 'ZERO_RESULTS') {
       throw new Error(
         `Location "${locationName}" not found on Google Maps. This location may not exist.\n\n` +
-        `Please try:\n` +
-        `• A more specific location name\n` +
-        `• Include business/place name if searching for a shop or landmark\n` +
-        `• Or use coordinates instead (e.g., "-13.9626, 33.7741")`
+        'Please try:\n' +
+        '- A more specific location name\n' +
+        '- Include a business or landmark name when searching for a place\n' +
+        '- Or use coordinates instead (e.g., "-13.9626, 33.7741")'
       );
     }
 
@@ -95,11 +89,9 @@ export class GeocodingService {
 
     const result = data.results[0];
     const location = result.geometry.location;
-    const lat = location.lat;
-    const lng = location.lng;
 
     return {
-      coordinates: { lat, lng },
+      coordinates: { lat: location.lat, lng: location.lng },
       displayName: result.formatted_address || result.name || locationName,
     };
   }
@@ -111,7 +103,6 @@ export class GeocodingService {
     locationName: string,
     countryCode: string = 'MW'
   ): Promise<GeocodingResult> {
-    // Add delay to respect rate limiting
     await this.delay(this.REQUEST_DELAY_MS);
 
     const params = new URLSearchParams({
@@ -124,7 +115,7 @@ export class GeocodingService {
 
     const response = await fetch(`${this.NOMINATIM_API_URL}?${params.toString()}`, {
       headers: {
-        'User-Agent': 'CTN-Website/1.0', // Required by Nominatim
+        'User-Agent': 'CTN-Website/1.0',
       },
     });
 
@@ -137,10 +128,10 @@ export class GeocodingService {
     if (!data || data.length === 0) {
       throw new Error(
         `Location "${locationName}" not found on the map. This location may not exist or may be too vague.\n\n` +
-        `Please try:\n` +
-        `• A more specific location (e.g., "Lilongwe Area 47 Sector 1, Malawi")\n` +
-        `• Include city and area name\n` +
-        `• Or use coordinates instead (e.g., "-13.9626, 33.7741")`
+        'Please try:\n' +
+        '- A more specific location (e.g., "Lilongwe Area 47 Sector 1, Malawi")\n' +
+        '- Include city and area name\n' +
+        '- Or use coordinates instead (e.g., "-13.9626, 33.7741")'
       );
     }
 
@@ -161,8 +152,6 @@ export class GeocodingService {
   /**
    * Geocode a location name to coordinates
    * Tries Google Maps API first (if API key is available), falls back to OpenStreetMap
-   * @param locationName - The location name or address to geocode (can include business names, shops, landmarks)
-   * @param countryCode - Optional country code to limit search (e.g., 'MW' for Malawi)
    */
   static async geocode(
     locationName: string,
@@ -172,24 +161,19 @@ export class GeocodingService {
       throw new Error('Location name cannot be empty');
     }
 
-    // Try Google Maps API first (better for businesses, shops, places)
     const apiKey = this.getGoogleMapsApiKey();
     if (apiKey) {
       try {
         return await this.geocodeWithGoogle(locationName, countryCode);
       } catch (error) {
-        // If Google Maps fails and it's not a "not found" error, try fallback
         if (error instanceof Error && !error.message.includes('not found')) {
           console.warn('Google Maps geocoding failed, trying OpenStreetMap fallback:', error.message);
-          // Fall through to OpenStreetMap
         } else {
-          // Re-throw "not found" errors from Google Maps
           throw error;
         }
       }
     }
 
-    // Fallback to OpenStreetMap
     try {
       return await this.geocodeWithOpenStreetMap(locationName, countryCode);
     } catch (error) {
